@@ -1,0 +1,55 @@
+name: Initial Ingest — NC → Icechunk
+
+on:
+  workflow_dispatch:
+    inputs:
+      netcdf_s3_path:
+        description: "S3 path to the source NetCDF file"
+        required: true
+        default: "s3://us-west-2.opendata.source.coop/<org>/astera/realizations_100.nc"
+      batch_size:
+        description: "Realizations per read/write pass (1 = ~3 GB peak RSS; safe on 16 GB runner)"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+
+jobs:
+  ingest:
+    name: Stream NC → Icechunk (S3)
+    # Large runner: needs ~16 GB RAM at BATCH_SIZE=1, ~6 GB at BATCH_SIZE=2.
+    # GitHub managed large runners require Team or Enterprise plan.
+    # Swap for a self-hosted label if you run your own fleet.
+    runs-on: ubuntu-latest-16-cores
+
+    env:
+      NETCDF_S3_PATH:          ${{ github.event.inputs.netcdf_s3_path }}
+      STORE_S3_PATH:           "s3://us-west-2.opendata.source.coop/<org>/astera/realizations.icechunk"
+      BATCH_SIZE:              ${{ github.event.inputs.batch_size }}
+      # Source Cooperative S3-compatible credentials.
+      # Obtain from your product page → View Credentials, then store as repo secrets.
+      AWS_ACCESS_KEY_ID:       ${{ secrets.SOURCE_COOP_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY:   ${{ secrets.SOURCE_COOP_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN:       ${{ secrets.SOURCE_COOP_SESSION_TOKEN }}
+      AWS_DEFAULT_REGION:      us-west-2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
+        run: uv sync --extra ci
+
+      - name: Run initial ingest
+        run: uv run python scripts/initial_ingest.py
+
+      - name: Upload result summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingest-result
+          path: /tmp/ingest_result.txt
+          if-no-files-found: ignore
