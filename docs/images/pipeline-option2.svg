@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="610" viewBox="0 0 960 610">
   <style>
     text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
     .env-label { font-size: 14px; font-weight: 700; }
@@ -22,8 +22,8 @@
   </defs>
 
   <!-- ── Swim lane backgrounds ── -->
-  <rect x="0" y="0" width="480" height="620" fill="#F0F4F8"/>
-  <rect x="480" y="0" width="480" height="620" fill="#FDF6EE"/>
+  <rect x="0" y="0" width="480" height="610" fill="#F0F4F8"/>
+  <rect x="480" y="0" width="480" height="610" fill="#FDF6EE"/>
 
   <line x1="480" y1="0" x2="480" y2="620" stroke="#ddd" stroke-width="1"/>
 
@@ -88,65 +88,71 @@
   <!-- ══════════════════════════════════════════════════════ -->
   <!-- UPDATE SECTION -->
   <!-- ══════════════════════════════════════════════════════ -->
-  <rect x="15" y="295" width="450" height="3" rx="1" fill="#ED7D31"/>
+  <rect x="15" y="295" width="440" height="3" rx="1" fill="#ED7D31"/>
   <text x="20" y="315" font-size="12" font-weight="700" fill="#B45F06" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Basin Update</text>
 
   <!-- Step 3: Data source (local or S3) -->
-  <rect x="30" y="330" width="430" height="75" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <rect x="30" y="330" width="390" height="75" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
   <text x="46" y="350" class="step-bold" fill="#B45F06">3</text>
   <circle cx="46" cy="346" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
   <text x="64" y="352" class="step-bold">Prepare basin data</text>
-  <text x="40" y="370" class="detail">Local files: mask.npy + data.npy from HPC model run</text>
+  <text x="40" y="370" class="detail">Local: mask.npy + data.npy from HPC model run</text>
   <text x="40" y="386" class="or-label">or</text>
-  <text x="56" y="386" class="detail">S3: reuse .npy already on Source.Coop (no re-upload)</text>
+  <text x="56" y="386" class="detail">S3: reuse .npy already on Source.Coop</text>
 
   <!-- Step 4: Run update script -->
-  <rect x="30" y="420" width="430" height="95" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <rect x="30" y="420" width="390" height="95" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
   <text x="46" y="440" class="step-bold" fill="#B45F06">4</text>
   <circle cx="46" cy="436" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
-  <text x="64" y="442" class="step-bold">Run basin update script (read-modify-write)</text>
+  <text x="64" y="442" class="step-bold">Run basin update script</text>
   <text x="40" y="460" class="detail">uv run python scripts/local_basin_update.py \</text>
-  <text x="50" y="473" class="detail">--basin jakobshavn --date 2025-04 --mask mask.npy --data data.npy</text>
-  <text x="40" y="492" class="detail">1. Read full bounding box from store over network</text>
-  <text x="40" y="505" class="detail">2. Overwrite only masked pixels in memory, write bbox back</text>
+  <text x="50" y="473" class="detail">--basin jakobshavn --date 2025-04 \</text>
+  <text x="50" y="486" class="detail">--mask mask.npy --data data.npy</text>
+  <text x="40" y="505" class="detail">Read-modify-write: masked pixels only</text>
 
-  <line x1="245" y1="405" x2="245" y2="420" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
+  <line x1="225" y1="405" x2="225" y2="420" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
 
   <!-- Arrow: read bbox from Source.Coop -->
-  <path d="M500,420 L460,460" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-orange)"/>
-  <text x="490" y="432" class="arrow-label">read bbox</text>
+  <path d="M555,420 L555,450 L420,450" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-orange)"/>
+  <text x="460" y="443" class="arrow-label">read bbox</text>
 
   <!-- Arrow: write bbox to Source.Coop -->
-  <path d="M460,490 L500,490" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
-  <text x="462" y="482" class="arrow-label">write bbox</text>
+  <path d="M420,490 L555,490 L555,510" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
+  <text x="460" y="483" class="arrow-label">write bbox</text>
 
   <!-- Source.Coop: updated store -->
-  <rect x="500" y="340" width="440" height="175" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <rect x="500" y="340" width="440" height="80" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
   <!-- 3D cube grey -->
-  <polygon points="520,370 590,370 602,363 532,363" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
-  <polygon points="520,370 590,370 590,415 520,415" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
-  <polygon points="590,370 602,363 602,408 590,415" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="520,355 575,355 585,349 530,349" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="520,355 575,355 575,395 520,395" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="575,355 585,349 585,389 575,395" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
   <!-- bbox outline (dashed) -->
-  <rect x="545" y="373" width="35" height="30" fill="none" stroke="#ED7D31" stroke-width="1" stroke-dasharray="3,2" rx="1"/>
+  <rect x="540" y="358" width="28" height="24" fill="none" stroke="#ED7D31" stroke-width="1" stroke-dasharray="3,2" rx="1"/>
   <!-- basin mask (irregular ellipse inside bbox) -->
-  <ellipse cx="562" cy="388" rx="12" ry="10" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
+  <ellipse cx="554" cy="370" rx="10" ry="8" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
 
-  <text x="614" y="370" class="step-bold">Read-modify-write</text>
-  <text x="614" y="386" class="detail">Full bounding box transferred over network</text>
-  <text x="614" y="400" class="detail">Masking applied in memory only</text>
+  <text x="600" y="365" class="step-bold">Existing Icechunk store</text>
+  <text x="600" y="381" class="detail">Bbox read from here, then written back</text>
+  <text x="600" y="397" class="detail">Only masked pixels change (orange)</text>
 
-  <text x="510" y="435" class="dim">Orange ellipse = masked pixels (updated)</text>
-  <text x="510" y="449" class="dim">Dashed box = bounding box (transferred)</text>
-  <text x="510" y="463" class="dim">Grey area = unchanged, not transferred</text>
-  <text x="510" y="483" class="dim">Non-masked pixels inside bbox preserved</text>
-  <text x="510" y="497" class="dim">Safe for overlapping basin bounding boxes</text>
+  <!-- Source.Coop: result after write -->
+  <rect x="500" y="515" width="440" height="80" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <polygon points="520,530 575,530 585,524 530,524" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="520,530 575,530 575,570 520,570" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="575,530 585,524 585,564 575,570" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <ellipse cx="554" cy="548" rx="10" ry="8" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
+
+  <text x="600" y="540" class="step-bold">Updated store (committed)</text>
+  <text x="600" y="556" class="detail">Non-masked pixels in bbox preserved</text>
+  <text x="600" y="572" class="detail">Versioned snapshot, previous data accessible</text>
+  <text x="600" y="588" class="dim">Safe for overlapping basin bounding boxes</text>
 
   <!-- ══════════════════════════════════════════════════════ -->
   <!-- READ BACK -->
   <!-- ══════════════════════════════════════════════════════ -->
-  <rect x="30" y="565" width="430" height="40" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
-  <text x="64" y="590" class="step-bold">Analyse: xr.open_zarr(session.store) — same as Option 1</text>
+  <rect x="30" y="565" width="390" height="40" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="50" y="590" class="step-bold">Analyse: xr.open_zarr(session.store)</text>
 
-  <path d="M500,510 Q400,560 460,585" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-blue)"/>
-  <text x="410" y="562" class="arrow-label">read</text>
+  <path d="M500,575 L420,580" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-blue)"/>
+  <text x="440" y="570" class="arrow-label">read</text>
 </svg>
