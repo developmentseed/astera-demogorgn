@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="860" height="520" viewBox="0 0 860 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
   <style>
     text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
     .env-label { font-size: 14px; font-weight: 700; }
     .env-sub { font-size: 10px; fill: #666; }
-    .step { font-size: 11px; fill: #333; }
     .step-bold { font-size: 11px; fill: #333; font-weight: 600; }
     .detail { font-size: 10px; fill: #666; }
     .dim { font-size: 10px; fill: #555; font-weight: 600; }
-    .cube-label { font-size: 9px; font-weight: 600; }
     .arrow-label { font-size: 10px; fill: #555; font-style: italic; }
   </style>
   <defs>
@@ -23,34 +21,34 @@
   </defs>
 
   <!-- ── Swim lane backgrounds ── -->
-  <rect x="0" y="0" width="260" height="520" rx="0" fill="#F0F4F8" />
-  <rect x="260" y="0" width="340" height="520" rx="0" fill="#FFFFFF" />
-  <rect x="600" y="0" width="260" height="520" rx="0" fill="#FDF6EE" />
+  <rect x="0" y="0" width="280" height="520" fill="#F0F4F8"/>
+  <rect x="280" y="0" width="380" height="520" fill="#FFFFFF"/>
+  <rect x="660" y="0" width="300" height="520" fill="#FDF6EE"/>
 
   <!-- Lane dividers -->
-  <line x1="260" y1="0" x2="260" y2="520" stroke="#ddd" stroke-width="1"/>
-  <line x1="600" y1="0" x2="600" y2="520" stroke="#ddd" stroke-width="1"/>
+  <line x1="280" y1="0" x2="280" y2="520" stroke="#ddd" stroke-width="1"/>
+  <line x1="660" y1="0" x2="660" y2="520" stroke="#ddd" stroke-width="1"/>
 
   <!-- ── Lane headers ── -->
-  <rect x="0" y="0" width="260" height="50" fill="#D6E4F0"/>
-  <text x="130" y="22" text-anchor="middle" class="env-label" fill="#2B5797">HPC</text>
-  <text x="130" y="38" text-anchor="middle" class="env-sub">Scientists' compute environment</text>
+  <rect x="0" y="0" width="280" height="50" fill="#D6E4F0"/>
+  <text x="140" y="22" text-anchor="middle" class="env-label" fill="#2B5797">HPC</text>
+  <text x="140" y="38" text-anchor="middle" class="env-sub">Scientists' compute environment</text>
 
-  <rect x="260" y="0" width="340" height="50" fill="#E8E8E8"/>
-  <text x="430" y="22" text-anchor="middle" class="env-label" fill="#333">GitHub</text>
-  <text x="430" y="38" text-anchor="middle" class="env-sub">Actions CI/CD</text>
+  <rect x="280" y="0" width="380" height="50" fill="#E8E8E8"/>
+  <text x="470" y="22" text-anchor="middle" class="env-label" fill="#333">GitHub</text>
+  <text x="470" y="38" text-anchor="middle" class="env-sub">Actions CI/CD</text>
 
-  <rect x="600" y="0" width="260" height="50" fill="#F5E6D0"/>
-  <text x="730" y="22" text-anchor="middle" class="env-label" fill="#8B5E3C">Source.Coop</text>
-  <text x="730" y="38" text-anchor="middle" class="env-sub">S3-compatible object storage</text>
+  <rect x="660" y="0" width="300" height="50" fill="#F5E6D0"/>
+  <text x="810" y="22" text-anchor="middle" class="env-label" fill="#8B5E3C">Source.Coop</text>
+  <text x="810" y="38" text-anchor="middle" class="env-sub">S3-compatible object storage</text>
 
   <!-- ── Title ── -->
-  <text x="430" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Pipeline 1: Initial Ingest</text>
+  <text x="480" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Pipeline 1: Initial Ingest</text>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- STEP 1: HPC — run model -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="20" y="100" width="220" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <rect x="20" y="100" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
   <text x="36" y="118" class="step-bold" fill="#2B5797">1</text>
   <circle cx="36" cy="114" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
   <text x="54" y="120" class="step-bold">Run ice-sheet model</text>
@@ -58,92 +56,91 @@
   <text x="30" y="152" class="detail">Output: realizations.nc (NetCDF4)</text>
 
   <!-- STEP 2: HPC — upload -->
-  <rect x="20" y="190" width="220" height="55" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <rect x="20" y="190" width="240" height="55" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
   <text x="36" y="210" class="step-bold" fill="#2B5797">2</text>
   <circle cx="36" cy="206" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
   <text x="54" y="212" class="step-bold">Upload NetCDF to S3</text>
   <text x="30" y="230" class="detail">aws s3 cp realizations.nc s3://...</text>
 
   <!-- Arrow: step 1 → step 2 -->
-  <line x1="130" y1="170" x2="130" y2="190" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <line x1="140" y1="170" x2="140" y2="190" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- Source.Coop: NetCDF stored -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="620" y="100" width="220" height="60" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <rect x="680" y="100" width="260" height="60" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
   <!-- NetCDF cube icon -->
-  <polygon points="640,116 690,116 700,110 650,110" fill="#E2EFDA" stroke="#70AD47" stroke-width="1"/>
-  <polygon points="640,116 690,116 690,140 640,140" fill="#E2EFDA" stroke="#70AD47" stroke-width="1"/>
-  <polygon points="690,116 700,110 700,134 690,140" fill="#C5E0B4" stroke="#70AD47" stroke-width="1"/>
-  <text x="710" y="120" class="step-bold">realizations.nc</text>
-  <text x="710" y="136" class="detail">(100, 13334, 13334) float64</text>
-  <text x="710" y="150" class="detail">~133 GB</text>
+  <polygon points="700,116 750,116 760,110 710,110" fill="#E2EFDA" stroke="#70AD47" stroke-width="1"/>
+  <polygon points="700,116 750,116 750,140 700,140" fill="#E2EFDA" stroke="#70AD47" stroke-width="1"/>
+  <polygon points="750,116 760,110 760,134 750,140" fill="#C5E0B4" stroke="#70AD47" stroke-width="1"/>
+  <text x="770" y="120" class="step-bold">realizations.nc</text>
+  <text x="770" y="136" class="detail">(100, 13334, 13334) float64</text>
+  <text x="770" y="150" class="detail">~133 GB</text>
 
   <!-- Arrow: HPC upload → Source.Coop -->
-  <line x1="240" y1="217" x2="270" y2="217" stroke="none"/>
-  <path d="M240,217 Q430,210 620,130" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
-  <text x="440" y="194" class="arrow-label">aws s3 cp</text>
+  <path d="M260,217 Q470,210 680,130" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="480" y="194" class="arrow-label">aws s3 cp</text>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- STEP 3: GitHub — trigger workflow -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="280" y="260" width="300" height="55" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
-  <text x="296" y="280" class="step-bold" fill="#333">3</text>
-  <circle cx="296" cy="276" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
-  <text x="314" y="282" class="step-bold">Trigger: workflow_dispatch</text>
-  <text x="290" y="300" class="detail">Input: NETCDF_S3_PATH, BATCH_SIZE</text>
+  <rect x="300" y="260" width="340" height="55" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
+  <text x="316" y="280" class="step-bold" fill="#333">3</text>
+  <circle cx="316" cy="276" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
+  <text x="334" y="282" class="step-bold">Trigger: workflow_dispatch</text>
+  <text x="310" y="300" class="detail">Input: NETCDF_S3_PATH, BATCH_SIZE</text>
 
   <!-- Arrow: HPC triggers GitHub -->
-  <path d="M130,245 L130,280 L280,280" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
-  <text x="170" y="272" class="arrow-label">manual trigger</text>
+  <path d="M140,245 L140,280 L300,280" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="180" y="272" class="arrow-label">manual trigger</text>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- STEP 4: GitHub Actions runs ingest -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="280" y="335" width="300" height="80" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
-  <text x="296" y="356" class="step-bold" fill="#333">4</text>
-  <circle cx="296" cy="352" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
-  <text x="314" y="358" class="step-bold">initial_ingest.py</text>
-  <text x="290" y="376" class="detail">16-core runner, 16 GB RAM</text>
-  <text x="290" y="392" class="detail">Downloads NC, streams batches of 1 realization</text>
-  <text x="290" y="406" class="detail">Writes sharded Zarr V3 to Icechunk</text>
+  <rect x="300" y="335" width="340" height="80" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
+  <text x="316" y="356" class="step-bold" fill="#333">4</text>
+  <circle cx="316" cy="352" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
+  <text x="334" y="358" class="step-bold">initial_ingest.py</text>
+  <text x="310" y="376" class="detail">16-core runner, 16 GB RAM</text>
+  <text x="310" y="392" class="detail">Downloads NC, streams batches of 1 realization</text>
+  <text x="310" y="406" class="detail">Writes sharded Zarr V3 to Icechunk</text>
 
   <!-- Arrow: step 3 → step 4 -->
-  <line x1="430" y1="315" x2="430" y2="335" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="470" y1="315" x2="470" y2="335" stroke="#888" stroke-width="1.5" marker-end="url(#arr)"/>
 
   <!-- Arrow: Source.Coop NC → GitHub Actions (reads) -->
-  <path d="M620,155 Q540,250 540,345" fill="none" stroke="#70AD47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr-green)"/>
-  <text x="556" y="250" class="arrow-label">boto3 download</text>
+  <path d="M680,155 Q600,250 600,345" fill="none" stroke="#70AD47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr-green)"/>
+  <text x="616" y="250" class="arrow-label">boto3 download</text>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- Source.Coop: Icechunk store created -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="620" y="310" width="220" height="130" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <rect x="680" y="310" width="260" height="130" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
   <!-- 3D cube -->
-  <polygon points="640,340 700,340 710,334 650,334" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
-  <polygon points="640,340 700,340 700,380 640,380" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
-  <polygon points="700,340 710,334 710,374 700,380" fill="#9DC3E6" stroke="#5B9BD5" stroke-width="1"/>
+  <polygon points="700,340 760,340 770,334 710,334" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
+  <polygon points="700,340 760,340 760,380 700,380" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
+  <polygon points="760,340 770,334 770,374 760,380" fill="#9DC3E6" stroke="#5B9BD5" stroke-width="1"/>
   <!-- chunk lines -->
-  <line x1="660" y1="340" x2="660" y2="380" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
-  <line x1="680" y1="340" x2="680" y2="380" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
-  <line x1="640" y1="353" x2="700" y2="353" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
-  <line x1="640" y1="366" x2="700" y2="366" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="720" y1="340" x2="720" y2="380" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="740" y1="340" x2="740" y2="380" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="700" y1="353" x2="760" y2="353" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="700" y1="366" x2="760" y2="366" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
 
-  <text x="720" y="342" class="step-bold">realizations.icechunk</text>
-  <text x="720" y="358" class="detail">(100, 13334, 13334)</text>
-  <text x="720" y="372" class="detail">float32, zstd</text>
-  <text x="720" y="386" class="detail">shards: (100, 512, 512)</text>
-  <text x="630" y="410" class="dim">EPSG:3031 Antarctic Stereographic</text>
-  <text x="630" y="424" class="dim">500 m resolution, ~6,667 km extent</text>
+  <text x="780" y="342" class="step-bold">realizations.icechunk</text>
+  <text x="780" y="358" class="detail">(100, 13334, 13334)</text>
+  <text x="780" y="372" class="detail">float32, zstd</text>
+  <text x="780" y="386" class="detail">shards: (100, 512, 512)</text>
+  <text x="690" y="410" class="dim">EPSG:3031 Antarctic Stereographic</text>
+  <text x="690" y="424" class="dim">500 m resolution, ~6,667 km extent</text>
 
   <!-- Arrow: GitHub Actions → Icechunk store (writes) -->
-  <path d="M580,385 L620,385" fill="none" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-  <text x="582" y="400" class="arrow-label">write</text>
+  <path d="M640,385 L680,385" fill="none" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <text x="642" y="400" class="arrow-label">write</text>
 
   <!-- ══════════════════════════════════════════════════ -->
   <!-- STEP 5: HPC — read back -->
   <!-- ══════════════════════════════════════════════════ -->
-  <rect x="20" y="400" width="220" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <rect x="20" y="400" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
   <text x="36" y="420" class="step-bold" fill="#2B5797">5</text>
   <circle cx="36" cy="416" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
   <text x="54" y="422" class="step-bold">Analyse via xarray</text>
@@ -152,11 +149,9 @@
   <text x="30" y="466" class="detail">profile interpolation</text>
 
   <!-- Arrow: Source.Coop → HPC (reads) -->
-  <path d="M620,420 Q400,470 240,440" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr-blue)"/>
-  <text x="400" y="468" class="arrow-label">icechunk.s3_storage → xarray</text>
+  <path d="M680,420 Q440,470 260,440" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr-blue)"/>
+  <text x="440" y="468" class="arrow-label">icechunk.s3_storage → xarray</text>
 
-  <!-- ── Step flow indicators (vertical) ── -->
-  <!-- HPC 1→2 already drawn -->
   <!-- dotted line from step 2 to step 5 (waiting) -->
   <line x1="40" y1="245" x2="40" y2="400" stroke="#5B9BD5" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
 </svg>
