@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="580" height="260" viewBox="0 0 580 260">
+  <style>
+    text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .title { font-size: 13px; font-weight: 600; fill: #1a1a2e; }
+    .label { font-size: 11px; fill: #555; }
+    .dim { font-size: 11px; fill: #333; font-weight: 600; }
+    .info { font-size: 11px; fill: #666; }
+    .info-val { font-size: 11px; fill: #333; font-weight: 500; }
+  </style>
+
+  <!-- Title -->
+  <text x="20" y="24" class="title">Ingest Batch (one realization)</text>
+
+  <!-- 2D slab: front face -->
+  <polygon points="80,50 280,50 280,190 80,190" fill="#E2EFDA" stroke="#70AD47" stroke-width="1.5"/>
+  <!-- 2D slab: thin top face -->
+  <polygon points="80,50 280,50 288,46 88,46" fill="#C5E0B4" stroke="#70AD47" stroke-width="1.5"/>
+  <!-- 2D slab: thin right face -->
+  <polygon points="280,50 288,46 288,186 280,190" fill="#A9D18E" stroke="#70AD47" stroke-width="1.5"/>
+
+  <!-- Dimension arrows and labels -->
+  <!-- x axis (bottom) -->
+  <line x1="80" y1="208" x2="280" y2="208" stroke="#333" stroke-width="1.2" marker-end="url(#arrow2)"/>
+  <text x="160" y="228" class="dim" text-anchor="middle">x: 13,334</text>
+
+  <!-- y axis (left) -->
+  <line x1="60" y1="190" x2="60" y2="50" stroke="#333" stroke-width="1.2" marker-end="url(#arrow2)"/>
+  <text x="40" y="126" class="dim" text-anchor="middle" transform="rotate(-90,40,126)">y: 13,334</text>
+
+  <!-- i axis label -->
+  <text x="298" y="42" class="dim">i: 1</text>
+
+  <!-- Info panel -->
+  <rect x="370" y="46" width="195" height="100" rx="6" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="385" y="68" class="info">Shape</text>
+  <text x="470" y="68" class="info-val">(1, 13334, 13334)</text>
+  <text x="385" y="86" class="info">Dtype</text>
+  <text x="470" y="86" class="info-val">float32</text>
+  <text x="385" y="104" class="info">Size</text>
+  <text x="470" y="104" class="info-val">~670 MB</text>
+  <text x="385" y="122" class="info">Source</text>
+  <text x="470" y="122" class="info-val">NetCDF slice</text>
+  <text x="385" y="140" class="info">Operation</text>
+  <text x="470" y="140" class="info-val">arr[i, :, :] = batch</text>
+
+  <defs>
+    <marker id="arrow2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#333" stroke-width="1"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="620" viewBox="0 0 860 620">
+  <style>
+    text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .env-label { font-size: 14px; font-weight: 700; }
+    .env-sub { font-size: 10px; fill: #666; }
+    .step-bold { font-size: 11px; fill: #333; font-weight: 600; }
+    .detail { font-size: 10px; fill: #666; }
+    .dim { font-size: 10px; fill: #555; font-weight: 600; }
+    .arrow-label { font-size: 10px; fill: #555; font-style: italic; }
+    .or-label { font-size: 10px; fill: #888; font-weight: 600; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="a1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#888" stroke-width="1.2"/>
+    </marker>
+    <marker id="a1-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+    </marker>
+    <marker id="a1-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+    </marker>
+  </defs>
+
+  <!-- ── Swim lane backgrounds ── -->
+  <rect x="0" y="0" width="430" height="620" fill="#F0F4F8"/>
+  <rect x="430" y="0" width="430" height="620" fill="#FDF6EE"/>
+
+  <line x1="430" y1="0" x2="430" y2="620" stroke="#ddd" stroke-width="1"/>
+
+  <!-- ── Lane headers ── -->
+  <rect x="0" y="0" width="430" height="50" fill="#D6E4F0"/>
+  <text x="215" y="22" text-anchor="middle" class="env-label" fill="#2B5797">HPC</text>
+  <text x="215" y="38" text-anchor="middle" class="env-sub">Scientists run scripts directly, no CI/CD</text>
+
+  <rect x="430" y="0" width="430" height="50" fill="#F5E6D0"/>
+  <text x="645" y="22" text-anchor="middle" class="env-label" fill="#8B5E3C">Source.Coop</text>
+  <text x="645" y="38" text-anchor="middle" class="env-sub">S3-compatible object storage (Icechunk store only)</text>
+
+  <!-- ── Title ── -->
+  <text x="430" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Option 2: Direct from HPC (no GitHub Actions)</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- INGEST SECTION -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="15" y="95" width="400" height="3" rx="1" fill="#5B9BD5"/>
+  <text x="20" y="115" font-size="12" font-weight="700" fill="#2B5797" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Initial Ingest</text>
+
+  <!-- Step 1: Run model -->
+  <rect x="30" y="130" width="380" height="50" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="46" y="150" class="step-bold" fill="#2B5797">1</text>
+  <circle cx="46" cy="146" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="64" y="152" class="step-bold">Run ice-sheet model</text>
+  <text x="40" y="170" class="detail">Output: /data/realizations.nc on local filesystem (100 realizations, 13334 x 13334)</text>
+
+  <!-- Step 2: Run ingest script -->
+  <rect x="30" y="200" width="380" height="65" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="46" y="220" class="step-bold" fill="#2B5797">2</text>
+  <circle cx="46" cy="216" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="64" y="222" class="step-bold">Run ingest script</text>
+  <text x="40" y="240" class="detail">uv run python scripts/local_ingest.py /data/realizations.nc</text>
+  <text x="40" y="254" class="detail">Reads local NetCDF, streams batches directly to Icechunk on Source.Coop</text>
+
+  <line x1="220" y1="180" x2="220" y2="200" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#a1-blue)"/>
+
+  <!-- Arrow: ingest → Source.Coop -->
+  <path d="M410,232 L450,232" fill="none" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#a1-blue)"/>
+  <text x="415" y="224" class="arrow-label">write</text>
+
+  <!-- Source.Coop: Icechunk created -->
+  <rect x="450" y="130" width="380" height="140" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <!-- 3D cube -->
+  <polygon points="470,160 540,160 552,153 482,153" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
+  <polygon points="470,160 540,160 540,205 470,205" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
+  <polygon points="540,160 552,153 552,198 540,205" fill="#9DC3E6" stroke="#5B9BD5" stroke-width="1"/>
+  <!-- chunk lines -->
+  <line x1="493" y1="160" x2="493" y2="205" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="516" y1="160" x2="516" y2="205" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="470" y1="175" x2="540" y2="175" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+  <line x1="470" y1="190" x2="540" y2="190" stroke="#5B9BD5" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.5"/>
+
+  <text x="562" y="162" class="step-bold">realizations.icechunk</text>
+  <text x="562" y="178" class="detail">(100, 13334, 13334) float32</text>
+  <text x="562" y="194" class="detail">shards (100, 512, 512), zstd</text>
+  <text x="562" y="210" class="detail">EPSG:3031, 500 m</text>
+  <text x="460" y="240" class="dim">No source data uploaded to S3</text>
+  <text x="460" y="254" class="dim">Only the Icechunk store lives on Source.Coop</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- UPDATE SECTION -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="15" y="295" width="400" height="3" rx="1" fill="#ED7D31"/>
+  <text x="20" y="315" font-size="12" font-weight="700" fill="#B45F06" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Basin Update</text>
+
+  <!-- Step 3: Data source (local or S3) -->
+  <rect x="30" y="330" width="380" height="75" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="46" y="350" class="step-bold" fill="#B45F06">3</text>
+  <circle cx="46" cy="346" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+  <text x="64" y="352" class="step-bold">Prepare basin data</text>
+  <text x="40" y="370" class="detail">Local files: mask.npy + data.npy from HPC model run</text>
+  <text x="40" y="386" class="or-label">or</text>
+  <text x="56" y="386" class="detail">S3 files: reuse .npy already uploaded to Source.Coop (no re-upload needed)</text>
+  <text x="40" y="398" class="detail"></text>
+
+  <!-- Step 4: Run update script -->
+  <rect x="30" y="420" width="380" height="95" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="46" y="440" class="step-bold" fill="#B45F06">4</text>
+  <circle cx="46" cy="436" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+  <text x="64" y="442" class="step-bold">Run basin update script (read-modify-write)</text>
+  <text x="40" y="460" class="detail">uv run python scripts/local_basin_update.py \</text>
+  <text x="50" y="473" class="detail">--basin jakobshavn --date 2025-04 --mask mask.npy --data data.npy</text>
+  <text x="40" y="492" class="detail">1. Read full bounding box from Icechunk store</text>
+  <text x="40" y="505" class="detail">2. Overwrite only masked pixels in memory</text>
+
+  <line x1="220" y1="405" x2="220" y2="420" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
+
+  <!-- Arrow: read bbox from Source.Coop -->
+  <path d="M450,420 L410,460" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-orange)"/>
+  <text x="440" y="432" class="arrow-label">read bbox</text>
+
+  <!-- Arrow: write bbox to Source.Coop -->
+  <path d="M410,480 L450,480" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a1-orange)"/>
+  <text x="412" y="472" class="arrow-label">write bbox</text>
+
+  <!-- Source.Coop: updated store -->
+  <rect x="450" y="340" width="380" height="175" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <!-- 3D cube grey -->
+  <polygon points="470,370 540,370 552,363 482,363" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="470,370 540,370 540,415 470,415" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="540,370 552,363 552,408 540,415" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <!-- bbox outline (dashed) -->
+  <rect x="495" y="373" width="35" height="30" fill="none" stroke="#ED7D31" stroke-width="1" stroke-dasharray="3,2" rx="1"/>
+  <!-- basin mask (irregular ellipse inside bbox) -->
+  <ellipse cx="512" cy="388" rx="12" ry="10" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
+  <!-- label for bbox -->
+  <text x="536" y="400" font-size="8" fill="#ED7D31" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">bbox</text>
+
+  <text x="562" y="368" class="step-bold">Read-modify-write</text>
+  <text x="562" y="384" class="detail">Full bounding box transferred</text>
+  <text x="562" y="398" class="detail">over the network (read + write)</text>
+  <text x="562" y="416" class="detail">Masking applied in memory only</text>
+  <text x="460" y="445" class="dim">Orange ellipse = masked pixels (updated)</text>
+  <text x="460" y="459" class="dim">Dashed box = bounding box (transferred)</text>
+  <text x="460" y="473" class="dim">Grey area = unchanged, not transferred</text>
+  <text x="460" y="493" class="dim">Non-masked pixels inside bbox preserved</text>
+  <text x="460" y="507" class="dim">Safe for overlapping basin bounding boxes</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- READ BACK -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="30" y="565" width="380" height="40" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="64" y="590" class="step-bold">Analyse: xr.open_zarr(session.store) — same as Option 1</text>
+
+  <path d="M450,510 Q350,560 410,585" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-blue)"/>
+  <text x="360" y="562" class="arrow-label">read</text>
+</svg>

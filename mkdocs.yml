@@ -1,0 +1,28 @@
+site_name: astera-demogorgn
+site_description: Ingest and update pipeline for the DEMOGORGN ice-sheet topology data
+
+theme:
+  name: material
+  palette:
+    scheme: default
+    primary: indigo
+    accent: orange
+  features:
+    - content.code.copy
+    - navigation.sections
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Pipeline: pipeline.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
