@@ -160,6 +160,95 @@ arr[realization, row_sl, col_sl] = current
 
 ---
 
+## Updating masks
+
+The pipeline uses two types of masks, both of which may need to be updated over time.
+
+### Bedmap3 classification mask
+
+The Bedmap3 mask (`ds.mask`) classifies each grid cell as ice (1), rock (2), or other surface types (4, etc.). During postprocessing, this mask determines where simulated bed topography values are used vs where the original Bedmap3 bed is kept:
+
+```python
+ice_rock_msk = (mask == 1) | (mask == 4) | (mask == 2)
+tmp_bed = np.where(ice_rock_msk, simulated_bed, base_topography)
+```
+
+If the Bedmap3 mask is updated (e.g. revised ice extent from new satellite observations), the postprocessing step produces different results even from the same residual fields. This means:
+
+- **Affected realizations need to be re-postprocessed and re-ingested.** The residual fields themselves don't change, but the `np.where` produces different output at the boundary between ice/rock and other surface types.
+- **Scope of the update** depends on where the mask changed. If only a few grid cells near a coastline were reclassified, only basins overlapping those cells need re-processing. If the mask changed globally, all realizations need a full re-ingest.
+
+A mask update workflow would look like:
+
+1. Obtain the updated Bedmap3 mask
+2. Identify which basins (or the full grid) are affected
+3. Re-run postprocessing for affected realizations using the new mask
+4. Apply a basin update (or full re-ingest) with the re-postprocessed data
+5. Commit the updated mask array to the store in the same Icechunk snapshot
+
+### Basin boundary masks
+
+Each basin update uses a boolean mask (shape `(13334, 13334)`) defining which pixels belong to that drainage basin. These masks determine:
+
+- The bounding box for the spatial write region
+- Which pixels are updated within that bounding box (in the read-modify-write approach)
+
+Basin masks may need updating when:
+
+- Drainage basin boundaries are revised (e.g. from updated ice velocity or surface elevation data)
+- A basin is split into sub-basins for finer-grained updates
+- Mask errors are corrected (e.g. a few pixels were assigned to the wrong basin)
+
+When a basin mask changes:
+
+- **If the new mask is a subset of the old mask**, no re-processing is needed. Future updates will simply write to a smaller region.
+- **If the new mask extends into previously unmasked area**, those new pixels need valid data. This requires re-running the model (or re-postprocessing existing residuals) for the expanded region and applying a basin update.
+- **If basins are reorganised** (e.g. one basin split into two), the new masks should be non-overlapping. Existing data in the store is still valid; future updates just use the new mask files.
+
+### Storing masks in the Icechunk store
+
+Basin masks are currently stored as `.npy` files on S3 (or local filesystem in the alternative design), separate from the Icechunk store. The Bedmap3 classification mask lives in an external NetCDF. Neither is versioned alongside the realizations data.
+
+Adding both mask types as arrays in the Zarr group would provide full provenance through Icechunk's versioning:
+
+```
+realizations.icechunk/
+├── realizations        (100, 13334, 13334) float32   # the datacube
+├── i                   (100,)              int64      # realization index
+├── y                   (13334,)            float32    # y coordinates
+├── x                   (13334,)            float32    # x coordinates
+├── bedmap3_mask        (13334, 13334)      int8       # classification mask
+├── basin/jakobshavn    (13334, 13334)      bool       # basin boundary mask
+├── basin/thwaites      (13334, 13334)      bool       # basin boundary mask
+└── ...
+```
+
+Because Icechunk commits are atomic, the mask and the realizations data can be updated in the same snapshot. This means any historical snapshot contains exactly the masks that were used to produce the data at that point in time. Scientists can:
+
+- **Check which mask version produced a given result** by opening a historical snapshot and reading the mask array directly, rather than tracking external file versions
+- **Detect what changed** by comparing mask arrays between two snapshots to see which grid cells were reclassified or which basin boundaries shifted
+- **Reproduce postprocessing** by reading the mask from the same snapshot as the data, guaranteeing consistency even if the external mask files have since been overwritten
+- **Roll back a mask change** by reverting to a previous snapshot if a mask update introduced errors, restoring both the data and the mask that generated it
+
+Updating a mask in the store would be part of the basin update workflow:
+
+```python
+session = repo.writable_session("main")
+root = zarr.open_group(session.store, mode="r+")
+
+# Update the basin mask
+root["basin/jakobshavn"][:] = updated_mask
+
+# Apply the basin update using the new mask
+arr = root["realizations"]
+# ... read-modify-write with updated_mask ...
+
+# Single atomic commit captures both changes
+session.commit("Update jakobshavn mask + re-process 2025-04")
+```
+
+---
+
 ## Comparison
 
 | | Current (GitHub Actions) | Alternative (Direct from HPC) |
