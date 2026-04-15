@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="480" viewBox="0 0 960 480">
+  <style>
+    text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .env-label { font-size: 14px; font-weight: 700; }
+    .env-sub { font-size: 10px; fill: #666; }
+    .step-bold { font-size: 11px; fill: #333; font-weight: 600; }
+    .detail { font-size: 10px; fill: #666; }
+    .dim { font-size: 10px; fill: #555; font-weight: 600; }
+    .arrow-label { font-size: 10px; fill: #555; font-style: italic; }
+  </style>
+  <defs>
+    <marker id="a2-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+    </marker>
+    <marker id="a2-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+    </marker>
+  </defs>
+
+  <!-- Swim lane backgrounds -->
+  <rect x="0" y="0" width="480" height="480" fill="#F0F4F8"/>
+  <rect x="480" y="0" width="480" height="480" fill="#FDF6EE"/>
+  <line x1="480" y1="0" x2="480" y2="480" stroke="#ddd" stroke-width="1"/>
+
+  <!-- Lane headers -->
+  <rect x="0" y="0" width="480" height="50" fill="#D6E4F0"/>
+  <text x="240" y="22" text-anchor="middle" class="env-label" fill="#2B5797">HPC</text>
+  <text x="240" y="38" text-anchor="middle" class="env-sub">Scientists run scripts directly, no CI/CD</text>
+
+  <rect x="480" y="0" width="480" height="50" fill="#F5E6D0"/>
+  <text x="720" y="22" text-anchor="middle" class="env-label" fill="#8B5E3C">Source.Coop</text>
+  <text x="720" y="38" text-anchor="middle" class="env-sub">S3-compatible object storage</text>
+
+  <!-- Title -->
+  <text x="480" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Option 2: Basin Update (direct from HPC)</text>
+
+  <!-- Step 1: Run basin model -->
+  <rect x="30" y="100" width="430" height="42" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="46" y="118" class="step-bold" fill="#B45F06">1</text>
+  <circle cx="46" cy="114" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+  <text x="64" y="120" class="step-bold">Run basin model</text>
+  <text x="40" y="136" class="detail">Re-run simulation for one drainage basin. Output: residual .npy + mask.npy</text>
+
+  <line x1="245" y1="142" x2="245" y2="158" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a2-orange)"/>
+
+  <!-- Step 2: Postprocess -->
+  <rect x="30" y="160" width="430" height="68" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="46" y="178" class="step-bold" fill="#B45F06">2</text>
+  <circle cx="46" cy="174" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+  <text x="64" y="180" class="step-bold">Postprocess basin data</text>
+  <text x="40" y="196" class="detail">Add trend back to residual, apply Bedmap3 mask:</text>
+  <text x="40" y="210" class="detail">keep simulated values where ice/rock, else use Bedmap3 bed</text>
+  <text x="40" y="224" class="detail">Output: data.npy (float32, bbox region) + mask.npy (bool)</text>
+
+  <line x1="245" y1="228" x2="245" y2="244" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a2-orange)"/>
+
+  <!-- Step 3: Run update script -->
+  <rect x="30" y="246" width="430" height="82" rx="8" fill="#fff" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="46" y="266" class="step-bold" fill="#B45F06">3</text>
+  <circle cx="46" cy="262" r="10" fill="none" stroke="#ED7D31" stroke-width="1.2"/>
+  <text x="64" y="268" class="step-bold">Run basin update script</text>
+  <text x="40" y="286" class="detail">uv run python scripts/local_basin_update.py \</text>
+  <text x="50" y="299" class="detail">--basin jakobshavn --date 2025-04 \</text>
+  <text x="50" y="312" class="detail">--mask /data/masks/jakobshavn.npy --data /data/output/data.npy</text>
+  <text x="40" y="325" class="detail">Read-modify-write: only masked pixels updated, NaN skipped</text>
+
+  <!-- Arrow: read bbox from Source.Coop -->
+  <path d="M555,250 L555,278 L460,278" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a2-orange)"/>
+  <text x="480" y="262" class="arrow-label">read bbox</text>
+
+  <!-- Arrow: write bbox to Source.Coop -->
+  <path d="M460,315 L555,315 L555,340" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#a2-orange)"/>
+  <text x="480" y="308" class="arrow-label">write bbox</text>
+
+  <!-- Source.Coop: existing store (read from) -->
+  <rect x="500" y="100" width="440" height="80" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <polygon points="520,115 575,115 585,109 530,109" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="520,115 575,115 575,155 520,155" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="575,115 585,109 585,149 575,155" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <rect x="540" y="118" width="28" height="24" fill="none" stroke="#ED7D31" stroke-width="1" stroke-dasharray="3,2" rx="1"/>
+  <ellipse cx="554" cy="130" rx="10" ry="8" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
+
+  <text x="600" y="125" class="step-bold">Existing Icechunk store</text>
+  <text x="600" y="141" class="detail">Bbox read from here</text>
+  <text x="600" y="157" class="detail">Current data preserved where mask is False</text>
+
+  <!-- Source.Coop: result after write -->
+  <rect x="500" y="345" width="440" height="80" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <polygon points="520,360 575,360 585,354 530,354" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="520,360 575,360 575,400 520,400" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="575,360 585,354 585,394 575,400" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <ellipse cx="554" cy="378" rx="10" ry="8" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5"/>
+
+  <text x="600" y="370" class="step-bold">Updated store (committed)</text>
+  <text x="600" y="386" class="detail">Non-masked pixels in bbox preserved</text>
+  <text x="600" y="402" class="detail">Versioned snapshot, previous data accessible</text>
+  <text x="600" y="418" class="dim">Safe for overlapping basin bounding boxes</text>
+
+  <!-- Step 4: Read back -->
+  <rect x="30" y="430" width="430" height="40" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="46" y="450" class="step-bold" fill="#2B5797">4</text>
+  <circle cx="46" cy="446" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="64" y="452" class="step-bold">Analyse: xr.open_zarr(session.store)</text>
+
+  <path d="M500,418 Q460,440 460,445" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a2-blue)"/>
+  <text x="490" y="438" class="arrow-label">read</text>
+</svg>

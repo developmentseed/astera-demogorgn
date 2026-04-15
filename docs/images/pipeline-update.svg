@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="650" viewBox="0 0 960 650">
   <style>
     text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
     .env-label { font-size: 14px; font-weight: 700; }
@@ -20,15 +20,15 @@
     </marker>
   </defs>
 
-  <!-- ── Swim lane backgrounds ── -->
-  <rect x="0" y="0" width="280" height="560" fill="#F0F4F8"/>
-  <rect x="280" y="0" width="380" height="560" fill="#FFFFFF"/>
-  <rect x="660" y="0" width="300" height="560" fill="#FDF6EE"/>
+  <!-- Swim lane backgrounds -->
+  <rect x="0" y="0" width="280" height="650" fill="#F0F4F8"/>
+  <rect x="280" y="0" width="380" height="650" fill="#FFFFFF"/>
+  <rect x="660" y="0" width="300" height="650" fill="#FDF6EE"/>
 
-  <line x1="280" y1="0" x2="280" y2="560" stroke="#ddd" stroke-width="1"/>
-  <line x1="660" y1="0" x2="660" y2="560" stroke="#ddd" stroke-width="1"/>
+  <line x1="280" y1="0" x2="280" y2="650" stroke="#ddd" stroke-width="1"/>
+  <line x1="660" y1="0" x2="660" y2="650" stroke="#ddd" stroke-width="1"/>
 
-  <!-- ── Lane headers ── -->
+  <!-- Lane headers -->
   <rect x="0" y="0" width="280" height="50" fill="#D6E4F0"/>
   <text x="140" y="22" text-anchor="middle" class="env-label" fill="#2B5797">HPC</text>
   <text x="140" y="38" text-anchor="middle" class="env-sub">Scientists' compute environment</text>
@@ -41,127 +41,121 @@
   <text x="810" y="22" text-anchor="middle" class="env-label" fill="#8B5E3C">Source.Coop</text>
   <text x="810" y="38" text-anchor="middle" class="env-sub">S3-compatible object storage</text>
 
-  <!-- ── Title ── -->
+  <!-- Title -->
   <text x="480" y="78" text-anchor="middle" font-size="15" font-weight="700" fill="#1a1a2e" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">Pipeline 2: Basin Update</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
   <!-- STEP 1: HPC — run basin model -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="20" y="100" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
-  <text x="36" y="120" class="step-bold" fill="#2B5797">1</text>
-  <circle cx="36" cy="116" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
-  <text x="54" y="122" class="step-bold">Run basin model update</text>
-  <text x="30" y="140" class="detail">Re-run model for one drainage basin</text>
-  <text x="30" y="154" class="detail">Output: mask.npy + data.npy</text>
+  <rect x="20" y="100" width="240" height="55" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="36" y="118" class="step-bold" fill="#2B5797">1</text>
+  <circle cx="36" cy="114" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="54" y="120" class="step-bold">Run basin model update</text>
+  <text x="30" y="138" class="detail">Re-run model for one drainage basin</text>
+  <text x="30" y="150" class="detail">Output: residual .npy + mask.npy</text>
 
-  <!-- STEP 2: HPC — upload mask + data -->
-  <rect x="20" y="190" width="240" height="55" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
-  <text x="36" y="210" class="step-bold" fill="#2B5797">2</text>
-  <circle cx="36" cy="206" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
-  <text x="54" y="212" class="step-bold">Upload mask + data to S3</text>
-  <text x="30" y="230" class="detail">aws s3 cp mask.npy / data.npy s3://...</text>
+  <line x1="140" y1="155" x2="140" y2="172" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr4-blue)"/>
 
-  <line x1="140" y1="170" x2="140" y2="190" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr4-blue)"/>
+  <!-- STEP 2: HPC — postprocess -->
+  <rect x="20" y="175" width="240" height="80" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="36" y="193" class="step-bold" fill="#2B5797">2</text>
+  <circle cx="36" cy="189" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="54" y="195" class="step-bold">Postprocess basin data</text>
+  <text x="30" y="213" class="detail">Add trend back to residual</text>
+  <text x="30" y="227" class="detail">Apply mask: simulated where</text>
+  <text x="30" y="241" class="detail">ice/rock, else Bedmap3 bed</text>
+  <text x="30" y="253" class="detail">Output: data.npy (float32)</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
+  <line x1="140" y1="255" x2="140" y2="272" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr4-blue)"/>
+
+  <!-- STEP 3: HPC — upload mask + data -->
+  <rect x="20" y="275" width="240" height="45" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="36" y="295" class="step-bold" fill="#2B5797">3</text>
+  <circle cx="36" cy="291" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="54" y="297" class="step-bold">Upload mask + data to S3</text>
+  <text x="30" y="313" class="detail">aws s3 cp mask.npy / data.npy s3://...</text>
+
   <!-- Source.Coop: mask + data stored -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="680" y="100" width="260" height="90" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
-  <!-- Mask icon -->
-  <rect x="695" y="112" width="40" height="30" rx="2" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
-  <rect x="710" y="118" width="15" height="12" rx="1" fill="#F4B183" stroke="#ED7D31" stroke-width="1"/>
-  <text x="745" y="126" class="step-bold">basin mask.npy</text>
-  <text x="745" y="140" class="detail">(13334, 13334) bool</text>
-  <!-- Data icon -->
-  <rect x="695" y="152" width="40" height="18" rx="2" fill="#F4B183" stroke="#ED7D31" stroke-width="1"/>
-  <text x="745" y="164" class="step-bold">basin data.npy</text>
-  <text x="745" y="178" class="detail">(100, bbox_h, bbox_w) float32</text>
+  <rect x="680" y="175" width="260" height="90" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <rect x="695" y="187" width="40" height="30" rx="2" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <rect x="710" y="193" width="15" height="12" rx="1" fill="#F4B183" stroke="#ED7D31" stroke-width="1"/>
+  <text x="745" y="201" class="step-bold">basin mask.npy</text>
+  <text x="745" y="215" class="detail">(13334, 13334) bool</text>
+  <rect x="695" y="227" width="40" height="18" rx="2" fill="#F4B183" stroke="#ED7D31" stroke-width="1"/>
+  <text x="745" y="239" class="step-bold">basin data.npy</text>
+  <text x="745" y="253" class="detail">(100, bbox_h, bbox_w) float32</text>
 
   <!-- Arrow: HPC upload → Source.Coop -->
-  <path d="M260,217 Q470,200 680,145" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4)"/>
-  <text x="450" y="196" class="arrow-label">aws s3 cp</text>
+  <path d="M260,297 Q470,280 680,220" fill="none" stroke="#888" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4)"/>
+  <text x="450" y="274" class="arrow-label">aws s3 cp</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
-  <!-- STEP 3: HPC — commit YAML manifest -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="20" y="270" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
-  <text x="36" y="290" class="step-bold" fill="#2B5797">3</text>
-  <circle cx="36" cy="286" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
-  <text x="54" y="292" class="step-bold">Commit YAML manifest</text>
-  <text x="30" y="310" class="detail">basin: jakobshavn</text>
-  <text x="30" y="322" class="detail">date: 2025-04</text>
-  <text x="30" y="334" class="detail">mask_s3_path / data_s3_path</text>
+  <line x1="140" y1="320" x2="140" y2="350" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr4-blue)"/>
 
-  <line x1="140" y1="245" x2="140" y2="270" stroke="#5B9BD5" stroke-width="1.5" marker-end="url(#arr4-blue)"/>
+  <!-- STEP 4: HPC — commit YAML manifest -->
+  <rect x="20" y="352" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="36" y="372" class="step-bold" fill="#2B5797">4</text>
+  <circle cx="36" cy="368" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="54" y="374" class="step-bold">Commit YAML manifest</text>
+  <text x="30" y="392" class="detail">basin: jakobshavn</text>
+  <text x="30" y="404" class="detail">date: 2025-04</text>
+  <text x="30" y="416" class="detail">mask_s3_path / data_s3_path</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
-  <!-- STEP 4: GitHub — auto-triggered -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="300" y="270" width="340" height="55" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
-  <text x="316" y="290" class="step-bold" fill="#333">4</text>
-  <circle cx="316" cy="286" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
-  <text x="334" y="292" class="step-bold">Trigger: push to main</text>
-  <text x="310" y="310" class="detail">Detects changed updates/*.yaml files</text>
+  <!-- STEP 5: GitHub — auto-triggered -->
+  <rect x="300" y="352" width="340" height="55" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
+  <text x="316" y="372" class="step-bold" fill="#333">5</text>
+  <circle cx="316" cy="368" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
+  <text x="334" y="374" class="step-bold">Trigger: push to main</text>
+  <text x="310" y="392" class="detail">Detects changed updates/*.yaml files</text>
 
   <!-- Arrow: HPC push → GitHub -->
-  <path d="M260,305 L300,297" fill="none" stroke="#888" stroke-width="1.2" marker-end="url(#arr4)"/>
-  <text x="262" y="292" class="arrow-label">git push</text>
+  <path d="M260,387 L300,379" fill="none" stroke="#888" stroke-width="1.2" marker-end="url(#arr4)"/>
+  <text x="262" y="374" class="arrow-label">git push</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
-  <!-- STEP 5: GitHub Actions runs update -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="300" y="345" width="340" height="80" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
-  <text x="316" y="366" class="step-bold" fill="#333">5</text>
-  <circle cx="316" cy="362" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
-  <text x="334" y="368" class="step-bold">basin_update.py</text>
-  <text x="310" y="386" class="detail">Downloads mask + data from S3</text>
-  <text x="310" y="400" class="detail">Validates shapes match</text>
-  <text x="310" y="414" class="detail">Writes the basin bounding box region</text>
+  <!-- STEP 6: GitHub Actions runs update -->
+  <rect x="300" y="427" width="340" height="80" rx="8" fill="#fff" stroke="#888" stroke-width="1.5"/>
+  <text x="316" y="448" class="step-bold" fill="#333">6</text>
+  <circle cx="316" cy="444" r="10" fill="none" stroke="#888" stroke-width="1.2"/>
+  <text x="334" y="450" class="step-bold">basin_update.py</text>
+  <text x="310" y="468" class="detail">Downloads mask + data from S3</text>
+  <text x="310" y="482" class="detail">Validates shapes match</text>
+  <text x="310" y="496" class="detail">Writes the basin bounding box region</text>
 
-  <line x1="470" y1="325" x2="470" y2="345" stroke="#888" stroke-width="1.5" marker-end="url(#arr4)"/>
+  <line x1="470" y1="407" x2="470" y2="427" stroke="#888" stroke-width="1.5" marker-end="url(#arr4)"/>
 
   <!-- Arrow: Source.Coop mask/data → GitHub Actions -->
-  <path d="M680,185 Q600,280 600,355" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4-orange)"/>
-  <text x="616" y="268" class="arrow-label">boto3 download</text>
+  <path d="M680,260 Q600,360 600,437" fill="none" stroke="#ED7D31" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4-orange)"/>
+  <text x="616" y="348" class="arrow-label">boto3 download</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
   <!-- Source.Coop: Icechunk store updated -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="680" y="320" width="260" height="140" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
-  <!-- 3D cube with orange basin region -->
-  <polygon points="700,350 760,350 770,344 710,344" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
-  <polygon points="700,350 760,350 760,390 700,390" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
-  <polygon points="760,350 770,344 770,384 760,390" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
-  <!-- highlighted basin -->
-  <rect x="725" y="358" width="20" height="16" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5" rx="1"/>
+  <rect x="680" y="400" width="260" height="140" rx="8" fill="#fff" stroke="#D4915E" stroke-width="1.5"/>
+  <polygon points="700,430 760,430 770,424 710,424" fill="#D9D9D9" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="700,430 760,430 760,470 700,470" fill="#E8E8E8" stroke="#A6A6A6" stroke-width="1"/>
+  <polygon points="760,430 770,424 770,464 760,470" fill="#CBCBCB" stroke="#A6A6A6" stroke-width="1"/>
+  <rect x="725" y="438" width="20" height="16" fill="#F4B183" stroke="#ED7D31" stroke-width="1.5" rx="1"/>
 
-  <text x="780" y="352" class="step-bold">realizations.icechunk</text>
-  <text x="780" y="368" class="detail">Partial write to basin</text>
-  <text x="780" y="382" class="detail">bounding box only</text>
-  <text x="690" y="410" class="dim">Versioned Icechunk commit</text>
-  <text x="690" y="424" class="dim">"Update jakobshavn 2025-04 - git:abc123"</text>
-  <text x="690" y="444" class="detail">Previous versions accessible via</text>
-  <text x="690" y="456" class="detail">readonly_session(snapshot_id=...)</text>
+  <text x="780" y="432" class="step-bold">realizations.icechunk</text>
+  <text x="780" y="448" class="detail">Partial write to basin</text>
+  <text x="780" y="462" class="detail">bounding box only</text>
+  <text x="690" y="490" class="dim">Versioned Icechunk commit</text>
+  <text x="690" y="504" class="dim">"Update jakobshavn 2025-04 - git:abc123"</text>
+  <text x="690" y="524" class="detail">Previous versions accessible via</text>
+  <text x="690" y="536" class="detail">readonly_session(snapshot_id=...)</text>
 
   <!-- Arrow: GitHub Actions → Icechunk (writes) -->
-  <path d="M640,395 L680,390" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#arr4-orange)"/>
-  <text x="642" y="410" class="arrow-label">write</text>
+  <path d="M640,475 L680,470" fill="none" stroke="#ED7D31" stroke-width="1.5" marker-end="url(#arr4-orange)"/>
+  <text x="642" y="490" class="arrow-label">write</text>
 
-  <!-- ══════════════════════════════════════════════════ -->
-  <!-- STEP 6: HPC — read updated data -->
-  <!-- ══════════════════════════════════════════════════ -->
-  <rect x="20" y="440" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
-  <text x="36" y="460" class="step-bold" fill="#2B5797">6</text>
-  <circle cx="36" cy="456" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
-  <text x="54" y="462" class="step-bold">Analyse updated data</text>
-  <text x="30" y="480" class="detail">xr.open_zarr(session.store)</text>
-  <text x="30" y="494" class="detail">Compare versions, validate basin,</text>
-  <text x="30" y="506" class="detail">compute ensemble statistics</text>
+  <!-- STEP 7: HPC — read updated data -->
+  <rect x="20" y="530" width="240" height="70" rx="8" fill="#fff" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="36" y="550" class="step-bold" fill="#2B5797">7</text>
+  <circle cx="36" cy="546" r="10" fill="none" stroke="#5B9BD5" stroke-width="1.2"/>
+  <text x="54" y="552" class="step-bold">Analyse updated data</text>
+  <text x="30" y="570" class="detail">xr.open_zarr(session.store)</text>
+  <text x="30" y="584" class="detail">Compare versions, validate basin,</text>
+  <text x="30" y="596" class="detail">compute ensemble statistics</text>
 
   <!-- Arrow: Source.Coop → HPC (reads) -->
-  <path d="M680,450 Q440,510 260,475" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4-blue)"/>
-  <text x="440" y="508" class="arrow-label">icechunk.s3_storage → xarray</text>
+  <path d="M680,530 Q440,600 260,565" fill="none" stroke="#5B9BD5" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arr4-blue)"/>
+  <text x="440" y="598" class="arrow-label">icechunk.s3_storage → xarray</text>
 
   <!-- Waiting line HPC -->
-  <line x1="40" y1="340" x2="40" y2="440" stroke="#5B9BD5" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
+  <line x1="40" y1="422" x2="40" y2="530" stroke="#5B9BD5" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
 </svg>
