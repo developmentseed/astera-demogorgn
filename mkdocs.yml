@@ -9,6 +9,7 @@ theme:
     accent: orange
   features:
     - content.code.copy
+    - content.tabs.link
     - navigation.sections
 
 extra_css:
@@ -17,6 +18,7 @@ extra_css:
 nav:
   - Home: index.md
   - Pipeline: pipeline.md
+  - Data Upload: data-upload.md
 
 markdown_extensions:
   - tables
@@ -26,3 +28,5 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
