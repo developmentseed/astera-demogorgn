@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <style>
+    text { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .title { font-size: 13px; font-weight: 700; fill: #1a1a2e; }
+    .label { font-size: 11px; fill: #333; font-weight: 600; }
+    .detail { font-size: 10px; fill: #555; }
+    .legend { font-size: 10px; fill: #444; }
+  </style>
+
+  <!-- Title -->
+  <text x="20" y="22" class="title">Overlapping bounding boxes: the NaN problem</text>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- Left panel: the spatial layout -->
+  <!-- ════════════════════════════════════════════════ -->
+
+  <rect x="20" y="40" width="350" height="290" rx="4" fill="#F5F5F5" stroke="#ddd" stroke-width="1"/>
+  <text x="195" y="58" text-anchor="middle" class="label" fill="#999">Antarctic grid</text>
+
+  <!-- Basin A: body upper-left + ridge going right-and-down -->
+  <path d="M70,95 Q95,78 125,85 Q142,92 140,115 Q138,135 125,148
+           Q130,155 145,162 Q170,172 200,178 Q225,182 238,190
+           Q240,195 235,198 Q225,195 200,188 Q170,182 145,174
+           Q125,168 118,158 Q108,148 100,142 Q82,140 72,128
+           Q62,115 65,100 Z"
+        fill="#BDD7EE" fill-opacity="0.8" stroke="#5B9BD5" stroke-width="1.5"/>
+  <text x="102" y="118" text-anchor="middle" font-size="10" font-weight="600" fill="#2B5797">Basin A</text>
+
+  <!-- Basin B: body lower-right + ridge going left-and-up -->
+  <path d="M130,210 Q128,205 132,202 Q145,198 165,202 Q185,208 200,218
+           Q215,225 235,222 Q252,218 268,225 Q288,235 295,255
+           Q298,272 282,280 Q262,285 248,275 Q238,262 242,245
+           Q245,232 238,225 Q225,215 205,210 Q185,202 165,198
+           Q148,195 138,200 Q130,205 130,210 Z"
+        fill="#F4B183" fill-opacity="0.8" stroke="#ED7D31" stroke-width="1.5"/>
+  <text x="268" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#7B3B00">Basin B</text>
+
+  <!-- Basin A bounding box -->
+  <!-- A extremes: x≈62..240, y≈78..198 -->
+  <rect x="60" y="76" width="182" height="124" rx="2" fill="none" stroke="#5B9BD5" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Basin B bounding box -->
+  <!-- B extremes: x≈128..298, y≈195..285 -->
+  <rect x="126" y="193" width="174" height="94" rx="2" fill="none" stroke="#ED7D31" stroke-width="2" stroke-dasharray="6,3"/>
+
+  <!-- Overlap region where both bboxes intersect -->
+  <!-- A bbox: x=60..242, y=76..200.  B bbox: x=126..300, y=193..287 -->
+  <!-- Overlap: x=126..242, y=193..200 -->
+  <rect x="126" y="193" width="116" height="7" fill="#FFE0E0" fill-opacity="0.8" stroke="#CC0000" stroke-width="1.5"/>
+
+  <!-- Callout for overlap -->
+  <line x1="184" y1="196" x2="184" y2="305" stroke="#CC0000" stroke-width="0.8" stroke-dasharray="2,2"/>
+  <text x="100" y="305" font-size="9" fill="#CC0000" font-weight="600">bbox overlap: neither basin is here,</text>
+  <text x="100" y="317" font-size="9" fill="#CC0000">but both bboxes cover it. B's data has</text>
+  <text x="100" y="329" font-size="9" fill="#CC0000">NaN here, overwriting A's valid values.</text>
+
+  <!-- Bbox labels -->
+  <text x="62" y="72" font-size="9" fill="#5B9BD5" font-weight="600">A bbox</text>
+  <text x="232" y="189" font-size="9" fill="#ED7D31" font-weight="600">B bbox</text>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- Right panel: what happens -->
+  <!-- ════════════════════════════════════════════════ -->
+
+  <!-- Problem scenario -->
+  <rect x="400" y="40" width="380" height="140" rx="6" fill="#FFF5F5" stroke="#E8AAAA" stroke-width="1"/>
+  <text x="415" y="62" class="label" fill="#CC0000">Problem: full bounding box write</text>
+  <text x="415" y="82" class="detail">1. Update Basin A: writes A's bbox, overlap gets valid A data</text>
+  <text x="415" y="98" class="detail">2. Update Basin B: writes B's full bbox</text>
+  <text x="415" y="114" class="detail">3. Overlap region is inside B's bbox but outside B's mask</text>
+  <text x="415" y="130" class="detail">4. B's data has NaN there, overwriting A's valid values</text>
+  <rect x="415" y="142" width="350" height="24" rx="3" fill="#FFDDDD"/>
+  <text x="420" y="158" font-size="10" font-weight="600" fill="#CC0000">Result: A's valid data replaced with NaN</text>
+
+  <!-- Solution -->
+  <rect x="400" y="200" width="380" height="120" rx="6" fill="#F0FAF0" stroke="#A8D5A8" stroke-width="1"/>
+  <text x="415" y="222" class="label" fill="#2D7A2D">Solution: read-modify-write with mask</text>
+  <text x="415" y="242" class="detail">1. Read B's bounding box from the store (has A's valid data)</text>
+  <text x="415" y="258" class="detail">2. In memory: overwrite only where B's mask is True</text>
+  <text x="415" y="274" class="detail">3. Pixels where mask is False (including overlap) unchanged</text>
+  <text x="415" y="290" class="detail">4. Write bbox back to store, commit</text>
+  <rect x="415" y="296" width="350" height="18" rx="3" fill="#DDFFDD"/>
+  <text x="420" y="310" font-size="10" font-weight="600" fill="#2D7A2D">Result: both basins' data intact</text>
+
+  <!-- Legend -->
+  <rect x="400" y="340" width="380" height="52" rx="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <rect x="412" y="349" width="14" height="14" rx="2" fill="none" stroke="#5B9BD5" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="432" y="360" class="legend">Bounding box (axis-aligned, what Zarr writes)</text>
+  <rect x="412" y="367" width="14" height="14" rx="7" fill="#BDD7EE" stroke="#5B9BD5" stroke-width="1"/>
+  <text x="432" y="378" class="legend">Basin mask (irregular shape, actual data)</text>
+</svg>

@@ -83,6 +83,19 @@ With the direct-from-HPC approach, scientists can supply basin update data from 
 
 This means scientists who have already uploaded their realizations to S3 for the GitHub Actions pipeline can reuse that data without re-uploading, while scientists working locally can skip the upload entirely.
 
+### Handling NaN values in overlapping bounding boxes
+
+Model output contains valid data only within the basin mask. Pixels outside the mask but inside the bounding box are NaN. When neighbouring basins have overlapping bounding boxes, writing the full bbox can overwrite valid data from a previously updated basin with NaN.
+
+<p align="center">
+  <img src="../images/overlap-problem.svg" alt="Overlapping bounding boxes: the NaN problem"/>
+</p>
+
+Icechunk's versioning means the data is never truly lost (the previous snapshot is preserved and accessible via `readonly_session(snapshot_id=...)`), but the latest version would be incorrect. A **read-modify-write** with the basin mask avoids this: only pixels where the mask is `True` are updated, so NaN values outside the basin are never written to the store.
+
+!!! note
+    This applies to the current GitHub Actions pipeline, which writes the full bounding box. The alternative design's read-modify-write approach would handle this correctly by skipping NaN pixels outside the mask.
+
 ### Comparison
 
 | | Current (GitHub Actions) | Alternative (Direct from HPC) |
@@ -90,6 +103,6 @@ This means scientists who have already uploaded their realizations to S3 for the
 | **Automation** | Fully automated via CI/CD | Manual script invocation |
 | **Source data** | Must be uploaded to S3 first | Local files or S3 |
 | **Audit trail** | Git commits + workflow logs | Icechunk snapshots only |
-| **Basin precision** | Writes full bounding box | Read-modify-write preserves non-masked pixels in bbox |
-| **Overlapping basins** | May overwrite neighbours in bbox | Safe, non-masked pixels kept |
+| **Basin precision** | Writes full bounding box (including NaN) | Read-modify-write skips NaN outside mask |
+| **Overlapping basins** | NaN can overwrite valid data from neighbours | Safe, only masked pixels changed |
 | **Network** | S3 &rarr; runner &rarr; S3 (double transfer) | HPC &rarr; S3 (single transfer, but bbox read + write) |
