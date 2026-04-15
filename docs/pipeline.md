@@ -92,6 +92,74 @@ Icechunk's versioning means the data is never truly lost (the previous snapshot 
 
 ---
 
+## Updating a single realization
+
+The standard basin update writes all 100 realizations for a spatial region. To update a single realization (e.g. re-running one seed with corrected parameters), the write targets a single slice along the `i` dimension:
+
+```python
+# Standard basin update (all realizations):
+arr[:, row_sl, col_sl] = new_data          # shape (100, bbox_h, bbox_w)
+
+# Single-realization update:
+arr[42, row_sl, col_sl] = new_data         # shape (bbox_h, bbox_w)
+```
+
+### Chunking implications
+
+The store uses shards of `(100, 512, 512)` with inner chunks of `(100, 128, 128)`. All 100 realizations share the same chunk along the `i` dimension. This means writing a single realization still requires Zarr to read and rewrite the full chunk containing all 100 realizations for every spatial chunk that overlaps the bounding box. There is no I/O saving compared to updating all 100 realizations at once for the same spatial region.
+
+A single-realization update is useful when:
+
+- One realization had a bad seed or incorrect parameters and needs to be re-run
+- A new model version produces a corrected output for a specific realization
+- Quality control flags a single realization for replacement
+
+It is **not** more efficient than a full basin update for the same spatial extent.
+
+### With the current design (GitHub Actions)
+
+The YAML manifest would include a `realization` field:
+
+```yaml
+basin: jakobshavn
+date: "2025-04"
+realization: 42
+mask_s3_path: "s3://...masks/jakobshavn.npy"
+data_s3_path: "s3://...model-output/jakobshavn/2025-04/realization_42.npy"
+```
+
+The `data.npy` would have shape `(bbox_h, bbox_w)` instead of `(100, bbox_h, bbox_w)`, and `basin_update.py` would write to `arr[realization, row_sl, col_sl]` instead of `arr[:, row_sl, col_sl]`.
+
+### With the alternative design (direct from HPC)
+
+The update script would accept a `--realization` flag:
+
+```bash
+uv run python scripts/local_basin_update.py \
+    --basin jakobshavn \
+    --date 2025-04 \
+    --realization 42 \
+    --mask /data/masks/jakobshavn.npy \
+    --data /data/output/realization_42.npy
+```
+
+The read-modify-write logic is the same, but sliced to a single realization:
+
+```python
+mask_bbox = basin_mask[row_sl, col_sl]
+
+# Read single realization's bounding box
+current = arr[realization, row_sl, col_sl]
+
+# Overwrite only masked pixels
+current[mask_bbox] = new_data[mask_bbox]
+
+# Write back
+arr[realization, row_sl, col_sl] = current
+```
+
+---
+
 ## Comparison
 
 | | Current (GitHub Actions) | Alternative (Direct from HPC) |
