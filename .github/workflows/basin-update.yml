@@ -36,17 +36,18 @@ jobs:
       AWS_DEFAULT_REGION:      us-west-2
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           # Fetch two commits so we can diff for changed manifests on push
           fetch-depth: 2
+          persist-credentials: false
 
       - name: Resolve manifest files
         id: manifests
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             # Use the explicitly supplied list
-            echo "files=${{ github.event.inputs.manifest_files }}" >> "$GITHUB_OUTPUT"
+            echo "files=${GITHUB_EVENT_INPUTS_MANIFEST_FILES}" >> "$GITHUB_OUTPUT"
           else
             # Detect YAML files added or modified in this push
             CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'updates/*.yaml' 'updates/**/*.yaml' | tr '\n' ' ')
@@ -58,10 +59,12 @@ jobs:
               echo "files=$CHANGED" >> "$GITHUB_OUTPUT"
             fi
           fi
+        env:
+          GITHUB_EVENT_INPUTS_MANIFEST_FILES: ${{ github.event.inputs.manifest_files }}
 
       - name: Set up uv
         if: steps.manifests.outputs.files != ''
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
 
       - name: Install dependencies
         if: steps.manifests.outputs.files != ''
@@ -75,7 +78,7 @@ jobs:
 
       - name: Upload result summary
         if: always() && steps.manifests.outputs.files != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: update-result-${{ github.run_id }}
           path: /tmp/update_result.txt
