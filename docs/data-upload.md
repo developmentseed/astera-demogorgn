@@ -1,7 +1,9 @@
-# Data Upload
+# Data Upload to source.coop
 
 This page walks through uploading data to the [Source.Coop](https://source.coop/englacial/demogorgn) repository using the AWS CLI, starting from scratch.
 
+## Background: 
+Source.coop is a utility for hosting open datasets that provides a public data catalog and standardized access. The data itself physically lives on an Amazon Web Services S3 bucket; the following upload instructions explain how to get started with the AWS CLI in order to upload data to the public repository.
 ---
 
 ## Install the AWS CLI
