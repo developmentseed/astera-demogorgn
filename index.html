@@ -1,0 +1,1267 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Ingest and update pipeline for the DEMOGORGN ice-sheet topology data">
+      
+      
+      
+      
+      
+        <link rel="next" href="pipeline/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>astera-demogorgn</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#astera-demogorgn" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="astera-demogorgn" class="md-header__button md-logo" aria-label="astera-demogorgn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            astera-demogorgn
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="astera-demogorgn" class="md-nav__button md-logo" aria-label="astera-demogorgn" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    astera-demogorgn
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-usagereading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data usage/reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data usage/reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opening-the-stores-using-xarray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opening the stores using Xarray
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-windowed-read-and-ensemble-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Windowed read and ensemble statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Windowed read and ensemble statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-to-a-specific-set-of-realizations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subset to a specific set of realizations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-the-mask-statistics-for-icerock-pixels-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply the mask: statistics for ice/rock pixels only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpolate-all-realizations-along-a-transect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolate all realizations along a transect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reading-a-previous-version-of-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reading a previous version of the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-export-a-windowed-subset-to-a-local-netcdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Export a windowed subset to a local NetCDF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Export a windowed subset to a local NetCDF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-the-mask-in-the-same-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include the mask in the same file
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data-upload/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Upload
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-usagereading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data usage/reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data usage/reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opening-the-stores-using-xarray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opening the stores using Xarray
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-windowed-read-and-ensemble-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Windowed read and ensemble statistics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Windowed read and ensemble statistics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subset-to-a-specific-set-of-realizations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subset to a specific set of realizations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apply-the-mask-statistics-for-icerock-pixels-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply the mask: statistics for ice/rock pixels only
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interpolate-all-realizations-along-a-transect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpolate all realizations along a transect
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reading-a-previous-version-of-the-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reading a previous version of the data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-export-a-windowed-subset-to-a-local-netcdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Export a windowed subset to a local NetCDF
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Export a windowed subset to a local NetCDF">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-the-mask-in-the-same-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Include the mask in the same file
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="astera-demogorgn">astera-demogorgn</h1>
+<p>Ingest and update pipeline for the DEMOGORGN ice-sheet topology data.</p>
+<h2 id="overview">Overview</h2>
+<p>This project manages a 100-realization Antarctic ice-sheet datacube stored as a sharded Zarr V3 array in an <a href="https://icechunk.io">Icechunk</a> repository on <a href="https://source.coop/englacial/demogorgn">Source.Coop</a>.</p>
+<p>See the <a href="pipeline/">Pipeline</a> page for detailed explanation + usage instructions for ingesting and updating the data archive.</p>
+<h2 id="data-usagereading">Data usage/reading</h2>
+<p>The Icechunk archives on source.coop are readable without credentials. The icechunk archives enable a few key features: 
+- Range requests (HTTP byte-range fetches) to enable spatial/seed subsetting without having to fetch the entire file
+- Data versioning and reading from a specific point in time
+- Efficient data compression (65Gb NetCDF becomes a 16Gb icechunk archive)
+- Interoperability with Xarray library for data access (data can be fetched directly from the source.coop S3 bucket, without needing to download file to disk first)</p>
+<p>The data fetching/usage examples below require:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip install icechunk zarr xarray netCDF4 numpy
+</code></pre></div>
+<h3 id="opening-the-stores-using-xarray">Opening the stores using <a href="https://docs.xarray.dev/en/stable/">Xarray</a></h3>
+<p>Data proxy API note: the data is publicly readable without any account or credentials. source.coop exposes the data through a proxy API at <code>https://data.source.coop</code> that accepts S3-style requests. The <code>bucket</code> parameter below is set to the organisation name (<code>englacial</code>) rather than the underlying AWS bucket name — the proxy resolves this automatically. The <code>endpoint_url</code> parameter points requests at the proxy instead of AWS directly.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">icechunk</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># source.coop data proxy — serves public data without credentials.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># The org name (&quot;englacial&quot;) is used as the S3 bucket; the repo path follows.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">SOURCE_COOP_ENDPOINT</span> <span class="o">=</span> <span class="s2">&quot;https://data.source.coop&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">ORG_NAME</span> <span class="o">=</span> <span class="s2">&quot;englacial&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">open_icechunk_repo</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span> 
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">storage</span> <span class="o">=</span> <span class="n">icechunk</span><span class="o">.</span><span class="n">s3_storage</span><span class="p">(</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>        <span class="n">bucket</span><span class="o">=</span><span class="n">ORG_NAME</span><span class="p">,</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>        <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="n">endpoint_url</span><span class="o">=</span><span class="n">SOURCE_COOP_ENDPOINT</span><span class="p">,</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>        <span class="n">anonymous</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>        <span class="n">force_path_style</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="k">return</span> <span class="n">icechunk</span><span class="o">.</span><span class="n">Repository</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">open_store</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span>  <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>    <span class="n">repo</span> <span class="o">=</span> <span class="n">open_icechunk_repo</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>    <span class="c1"># branch=&quot;main&quot; fetches the most recent version of the data</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="n">session</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">readonly_session</span><span class="p">(</span><span class="n">branch</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>    <span class="c1"># zarr_format=3 enables Zarr v3 sharding (outer shards + inner chunks)</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">session</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">consolidated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zarr_format</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a> <span class="c1"># realizations array + seed_id/y/x coords</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="n">realizations_dataset</span> <span class="o">=</span> <span class="n">open_store</span><span class="p">(</span><span class="s2">&quot;demogorgn/icechunk/realizations.icechunk&quot;</span><span class="p">)</span>  
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="c1"># bed + y/x coords</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="n">mask_dataset</span> <span class="o">=</span> <span class="n">open_store</span><span class="p">(</span><span class="s2">&quot;demogorgn/icechunk/antarctica_fast_flow_mask_50m.icechunk&quot;</span><span class="p">)</span>       
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>In<span class="w"> </span><span class="o">[</span><span class="m">11</span><span class="o">]</span>:<span class="w"> </span>realizations_dataset
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Out<span class="o">[</span><span class="m">11</span><span class="o">]</span>:
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&lt;xarray.Dataset&gt;<span class="w"> </span>Size:<span class="w"> </span>71GB
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Dimensions:<span class="w">       </span><span class="o">(</span>seed_id:<span class="w"> </span><span class="m">100</span>,<span class="w"> </span>y:<span class="w"> </span><span class="m">13334</span>,<span class="w"> </span>x:<span class="w"> </span><span class="m">13334</span><span class="o">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>Coordinates:
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>*<span class="w"> </span>seed_id<span class="w">       </span><span class="o">(</span>seed_id<span class="o">)</span><span class="w"> </span>int64<span class="w"> </span>800B<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="m">7</span><span class="w"> </span>...<span class="w"> </span><span class="m">93</span><span class="w"> </span><span class="m">94</span><span class="w"> </span><span class="m">95</span><span class="w"> </span><span class="m">96</span><span class="w"> </span><span class="m">97</span><span class="w"> </span><span class="m">98</span><span class="w"> </span><span class="m">99</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>*<span class="w"> </span>y<span class="w">             </span><span class="o">(</span>y<span class="o">)</span><span class="w"> </span>float32<span class="w"> </span>53kB<span class="w"> </span><span class="m">3</span>.333e+06<span class="w"> </span><span class="m">3</span>.333e+06<span class="w"> </span>...<span class="w"> </span>-3.333e+06<span class="w"> </span>-3.333e+06
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>*<span class="w"> </span>x<span class="w">             </span><span class="o">(</span>x<span class="o">)</span><span class="w"> </span>float32<span class="w"> </span>53kB<span class="w"> </span>-3.333e+06<span class="w"> </span>-3.333e+06<span class="w"> </span>...<span class="w"> </span><span class="m">3</span>.333e+06<span class="w"> </span><span class="m">3</span>.333e+06
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>Data<span class="w"> </span>variables:
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span>realizations<span class="w">  </span><span class="o">(</span>seed_id,<span class="w"> </span>y,<span class="w"> </span>x<span class="o">)</span><span class="w"> </span>float32<span class="w"> </span>71GB<span class="w"> </span>...
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>In<span class="w"> </span><span class="o">[</span><span class="m">12</span><span class="o">]</span>:<span class="w"> </span>mask_dataset
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>Out<span class="o">[</span><span class="m">12</span><span class="o">]</span>:
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>&lt;xarray.Dataset&gt;<span class="w"> </span>Size:<span class="w"> </span>4GB
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>Dimensions:<span class="w">         </span><span class="o">(</span>y:<span class="w"> </span><span class="m">12445</span>,<span class="w"> </span>x:<span class="w"> </span><span class="m">12445</span><span class="o">)</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>Coordinates:
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>*<span class="w"> </span>y<span class="w">               </span><span class="o">(</span>y<span class="o">)</span><span class="w"> </span>float32<span class="w"> </span>50kB<span class="w"> </span><span class="m">2</span>.8e+06<span class="w"> </span><span class="m">2</span>.8e+06<span class="w"> </span>...<span class="w"> </span>-2.799e+06<span class="w"> </span>-2.8e+06
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>*<span class="w"> </span>x<span class="w">               </span><span class="o">(</span>x<span class="o">)</span><span class="w"> </span>float32<span class="w"> </span>50kB<span class="w"> </span>-2.8e+06<span class="w"> </span>-2.8e+06<span class="w"> </span>...<span class="w"> </span><span class="m">2</span>.799e+06<span class="w"> </span><span class="m">2</span>.8e+06
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>Data<span class="w"> </span>variables:
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span>fast_flow_mask<span class="w">  </span><span class="o">(</span>y,<span class="w"> </span>x<span class="o">)</span><span class="w"> </span>int64<span class="w"> </span>1GB<span class="w"> </span>...
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span>lat<span class="w">             </span><span class="o">(</span>y,<span class="w"> </span>x<span class="o">)</span><span class="w"> </span>float64<span class="w"> </span>1GB<span class="w"> </span>...
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span>lon<span class="w">             </span><span class="o">(</span>y,<span class="w"> </span>x<span class="o">)</span><span class="w"> </span>float64<span class="w"> </span>1GB<span class="w"> </span>...
+</code></pre></div>
+</details>
+<h3 id="1-windowed-read-and-ensemble-statistics">1. Windowed read and ensemble statistics</h3>
+<p>Fetch a spatial window and compute ensemble mean and spread across all 100 realizations. Only the Zarr chunks overlapping the bounding box are transferred — no full-array download.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Bounding box in EPSG:3031 metres</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span> <span class="o">=</span> <span class="o">-</span><span class="mf">500_000.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">300_000.0</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span> <span class="o">=</span>  <span class="mf">500_000.0</span><span class="p">,</span>  <span class="mf">300_000.0</span>   <span class="c1"># descending — pass max first</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">realizations</span> <span class="o">=</span> <span class="n">realizations_dataset</span><span class="p">[</span><span class="s2">&quot;realizations&quot;</span><span class="p">]</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">subset</span> <span class="o">=</span> <span class="n">realizations</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>   <span class="c1"># y descending</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subset shape: </span><span class="si">{</span><span class="n">subset</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>   <span class="c1"># (100, n_y, n_x)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Ensemble mean and std over all 100 realizations</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">mean_elev</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">std_elev</span>  <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>In [13]: mean_elev
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Out[13]:
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>&lt;xarray.DataArray &#39;realizations&#39; (y: 400, x: 400)&gt; Size: 640kB
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>array([[ -97.683464,  -73.27276 ,  -59.647495, ...,  439.58926 ,
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        441.46985 ,  437.29483 ],
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    [-101.85089 ,  -73.70325 ,  -71.27562 , ...,  439.52274 ,
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        452.7914  ,  432.16333 ],
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    [-148.86836 ,  -73.463455,  -40.387363, ...,  448.59723 ,
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        447.99176 ,  425.14514 ],
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    ...,
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    [-548.1683  , -585.7937  , -615.783   , ..., -538.9274  ,
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        -560.07916 , -565.3934  ],
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    [-519.39343 , -517.37866 , -490.3994  , ..., -538.2435  ,
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        -545.97833 , -546.2873  ],
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    [-494.50247 , -465.4407  , -474.61633 , ..., -531.3872  ,
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        -543.855   , -554.0597  ]], shape=(400, 400), dtype=float32)
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>Coordinates:
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>In [14]: std_elev
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>Out[14]:
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>&lt;xarray.DataArray &#39;realizations&#39; (y: 400, x: 400)&gt; Size: 640kB
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>array([[110.19651   , 109.45956   , 104.12201   , ..., 151.21176   ,
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>        151.14178   , 153.03677   ],
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>    [ 98.31736   ,  95.88217   ,  96.83175   , ..., 155.6633    ,
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        156.82104   , 156.46309   ],
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    [ 91.93957   ,  87.40099   ,  85.697334  , ..., 166.27524   ,
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        164.57101   , 165.68294   ],
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>    ...,
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>    [ 34.066845  ,  33.748405  ,  29.48755   , ...,   0.5202135 ,
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        18.734865  ,  26.90109   ],
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>    [ 21.018694  ,  26.476627  ,  26.426537  , ...,   0.48180303,
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        0.54081994,  18.593473  ],
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>    [  0.769584  ,   0.8082617 ,   0.8655422 , ...,  19.196617  ,
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>        0.5384659 ,   0.5499978 ]], shape=(400, 400), dtype=float32)
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>Coordinates:
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+</code></pre></div></p>
+</details>
+<h4 id="subset-to-a-specific-set-of-realizations">Subset to a specific set of realizations</h4>
+<p>Use <code>.sel(seed_id=...)</code> to load only a subset of the ensemble rather than all 100:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Select realizations 0, 10, and 42 by label</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">subset_3</span> <span class="o">=</span> <span class="n">realizations</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">seed_id</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">42</span><span class="p">],</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Or select a contiguous range with slice</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">subset_first20</span> <span class="o">=</span> <span class="n">realizations</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">seed_id</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="p">)</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>In [19]: subset_3
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Out[19]:
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>&lt;xarray.DataArray &#39;realizations&#39; (seed_id: 3, y: 400, x: 400)&gt; Size: 2MB
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>[480000 values with dtype=float32]
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Coordinates:
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>* seed_id  (seed_id) int64 24B 0 10 42
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>In [20]: subset_first20
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>Out[20]:
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>&lt;xarray.DataArray &#39;realizations&#39; (seed_id: 20, y: 400, x: 400)&gt; Size: 13MB
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>[3200000 values with dtype=float32]
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>Coordinates:
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>* seed_id  (seed_id) int64 160B 0 1 2 3 4 5 6 7 8 ... 12 13 14 15 16 17 18 19
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+</code></pre></div></p>
+</details>
+<h4 id="apply-the-mask-statistics-for-icerock-pixels-only">Apply the mask: statistics for ice/rock pixels only</h4>
+<p>Load the corresponding spatial window from the mask store and use <code>xr.where</code> to restrict statistics to pixels where the fast-flow mask equals 1:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># Load the same spatial window from the mask store</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">fast_flow_mask_window</span> <span class="o">=</span> <span class="n">mask_dataset</span><span class="p">[</span><span class="s2">&quot;fast_flow_mask&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Align mask to the realizations grid (handles any minor float coord differences)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">fast_flow_mask_aligned</span> <span class="o">=</span> <span class="n">fast_flow_mask_window</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1"># Mask: keep only pixels where fast_flow_mask == 1 (fast-flow pixels)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">masked_subset</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">fast_flow_mask_aligned</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="n">mean_masked</span> <span class="o">=</span> <span class="n">masked_subset</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">std_masked</span>  <span class="o">=</span> <span class="n">masked_subset</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># Count of valid pixels per location</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">n_valid</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">masked_subset</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>In [23]: mean_masked
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Out[23]:
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>&lt;xarray.DataArray &#39;realizations&#39; (y: 400, x: 400)&gt; Size: 640kB
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>array([[       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>            nan],
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    [       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>            nan],
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    [       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>            nan],
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    ...,
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>    [       nan, -585.7937 , -615.783  , ...,        nan,        nan,
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>            nan],
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    [       nan, -517.37866, -490.3994 , ...,        nan,        nan,
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>            nan],
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>    [       nan, -465.4407 , -474.61633, ...,        nan,        nan,
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>            nan]], shape=(400, 400), dtype=float32)
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>Coordinates:
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>In [24]: std_masked
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>Out[24]:
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>&lt;xarray.DataArray &#39;realizations&#39; (y: 400, x: 400)&gt; Size: 640kB
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>array([[       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>            nan],
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    [       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>            nan],
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>    [       nan,        nan,        nan, ...,        nan,        nan,
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>            nan],
+<a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>    ...,
+<a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>    [       nan, 33.748405 , 29.48755  , ...,        nan,        nan,
+<a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>            nan],
+<a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>    [       nan, 26.476627 , 26.426537 , ...,        nan,        nan,
+<a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>            nan],
+<a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>    [       nan,  0.8082617,  0.8655422, ...,        nan,        nan,
+<a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>            nan]], shape=(400, 400), dtype=float32)
+<a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>Coordinates:
+<a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+<a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>
+<a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>In [25]: n_valid
+<a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>Out[25]:
+<a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>&lt;xarray.DataArray &#39;realizations&#39; (y: 400, x: 400)&gt; Size: 1MB
+<a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>array([[  0,   0,   0, ...,   0,   0,   0],
+<a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>    [  0,   0,   0, ...,   0,   0,   0],
+<a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a>    [  0,   0,   0, ...,   0,   0,   0],
+<a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a>    ...,
+<a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a>    [  0, 100, 100, ...,   0,   0,   0],
+<a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>    [  0, 100, 100, ...,   0,   0,   0],
+<a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a>    [  0, 100, 100, ...,   0,   0,   0]], shape=(400, 400))
+<a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a>Coordinates:
+<a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+</code></pre></div></p>
+</details>
+<h4 id="interpolate-all-realizations-along-a-transect">Interpolate all realizations along a transect</h4>
+<p>Query all realizations at a set of (x, y) points — e.g. a flow line or flight track:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">n_pts</span>   <span class="o">=</span> <span class="mi">40</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">track_x</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">,</span> <span class="n">n_pts</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">track_y</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_pts</span><span class="p">,</span> <span class="p">(</span><span class="n">Y_MIN</span> <span class="o">+</span> <span class="n">Y_MAX</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;points&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">profile</span> <span class="o">=</span> <span class="n">realizations</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">track_x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">track_y</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># shape: (100, 40) — all realizations at each sample point</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">ens_mean</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">ens_std</span>  <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">)</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>In [28]: profile
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Out[28]:
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>&lt;xarray.DataArray &#39;realizations&#39; (seed_id: 100, points: 40)&gt; Size: 32kB
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>array([[ -961.25247192, -1054.83587881,  -967.94859001, ...,
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        -109.93409856,   103.08650599,    39.43743896],
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    [ -974.63633728, -1004.20980483,  -982.45917061, ...,
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        -154.16314629,    19.31907243,  -136.76080322],
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    [-1025.77485657,  -975.99843069,  -966.41567015, ...,
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        -95.94231591,   159.46286676,   133.05879211],
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    ...,
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    [ -822.87649536,  -979.47450804,  -968.67190943, ...,
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        -300.77180256,  -242.96932543,   -51.56808472],
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    [-1123.45834351,  -940.37931589, -1000.63571128, ...,
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>        -356.56628829,  -153.5598658 ,   -93.60653687],
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>    [ -921.12138367, -1023.71966161,  -978.53516721, ...,
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>        -284.23929655,  -163.36387624,   167.20947266]], shape=(100, 40))
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>Coordinates:
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>* seed_id  (seed_id) int64 800B 0 1 2 3 4 5 6 7 8 ... 92 93 94 95 96 97 98 99
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>    x        (points) float64 320B -5e+05 -4.949e+05 ... -3.051e+05 -3e+05
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>    y        (points) float64 320B 4e+05 4e+05 4e+05 4e+05 ... 4e+05 4e+05 4e+05
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>Dimensions without coordinates: points
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>In [29]: ens_mean
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a>Out[29]:
+<a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a>&lt;xarray.DataArray &#39;realizations&#39; (points: 40)&gt; Size: 320B
+<a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a>array([-1021.8202037 , -1019.41738975,  -978.44554061,  -796.33171683,
+<a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a>        -583.99786688,  -349.13191487,  -229.17934653,  -311.23866512,
+<a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a>        -307.66454722,  -280.18081343,  -230.02058457,  -255.05921741,
+<a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>        -275.63103857,  -266.74918137,  -253.81910123,  -287.4166736 ,
+<a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a>        -321.45604195,  -342.78256732,  -306.89033921,  -282.28122682,
+<a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a>        -191.96679255,  -113.15776882,  -149.47157208,  -207.26063681,
+<a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a>        -251.49413415,  -280.01643827,  -264.26559939,  -272.89527798,
+<a id="__codelineno-10-33" name="__codelineno-10-33" href="#__codelineno-10-33"></a>        -254.60997943,  -251.56994672,  -268.01083494,  -332.21373794,
+<a id="__codelineno-10-34" name="__codelineno-10-34" href="#__codelineno-10-34"></a>        -292.10172678,  -217.36142002,  -239.45695652,  -272.87808178,
+<a id="__codelineno-10-35" name="__codelineno-10-35" href="#__codelineno-10-35"></a>        -249.84522846,  -165.78308653,   -26.41491708,   152.19946373])
+<a id="__codelineno-10-36" name="__codelineno-10-36" href="#__codelineno-10-36"></a>Coordinates:
+<a id="__codelineno-10-37" name="__codelineno-10-37" href="#__codelineno-10-37"></a>    x        (points) float64 320B -5e+05 -4.949e+05 ... -3.051e+05 -3e+05
+<a id="__codelineno-10-38" name="__codelineno-10-38" href="#__codelineno-10-38"></a>    y        (points) float64 320B 4e+05 4e+05 4e+05 4e+05 ... 4e+05 4e+05 4e+05
+<a id="__codelineno-10-39" name="__codelineno-10-39" href="#__codelineno-10-39"></a>Dimensions without coordinates: points
+<a id="__codelineno-10-40" name="__codelineno-10-40" href="#__codelineno-10-40"></a>
+<a id="__codelineno-10-41" name="__codelineno-10-41" href="#__codelineno-10-41"></a>In [30]: ens_std
+<a id="__codelineno-10-42" name="__codelineno-10-42" href="#__codelineno-10-42"></a>Out[30]:
+<a id="__codelineno-10-43" name="__codelineno-10-43" href="#__codelineno-10-43"></a>&lt;xarray.DataArray &#39;realizations&#39; (points: 40)&gt; Size: 320B
+<a id="__codelineno-10-44" name="__codelineno-10-44" href="#__codelineno-10-44"></a>array([ 75.92927152,  39.23309003,  12.8033041 ,  18.10677637,
+<a id="__codelineno-10-45" name="__codelineno-10-45" href="#__codelineno-10-45"></a>        66.00417325,  35.30941325,  57.80556286,  92.54603277,
+<a id="__codelineno-10-46" name="__codelineno-10-46" href="#__codelineno-10-46"></a>    107.78362999, 115.58991203,  93.97249718,  47.42806045,
+<a id="__codelineno-10-47" name="__codelineno-10-47" href="#__codelineno-10-47"></a>        14.16991193,   2.22160587,  60.78443185,  65.52130951,
+<a id="__codelineno-10-48" name="__codelineno-10-48" href="#__codelineno-10-48"></a>        77.94345752,  53.79098962,  16.01752299,  20.71410336,
+<a id="__codelineno-10-49" name="__codelineno-10-49" href="#__codelineno-10-49"></a>        11.15452578,   6.47763946,  52.14626643,  86.16769155,
+<a id="__codelineno-10-50" name="__codelineno-10-50" href="#__codelineno-10-50"></a>    103.58498805, 140.41046207, 143.46020089, 144.44870255,
+<a id="__codelineno-10-51" name="__codelineno-10-51" href="#__codelineno-10-51"></a>    138.00274912, 110.43935439,  67.79939245,  28.48681738,
+<a id="__codelineno-10-52" name="__codelineno-10-52" href="#__codelineno-10-52"></a>        53.79894798,  79.71755009, 107.68589255, 129.17190639,
+<a id="__codelineno-10-53" name="__codelineno-10-53" href="#__codelineno-10-53"></a>    140.05805711, 182.58060903, 211.03855155, 267.74695776])
+<a id="__codelineno-10-54" name="__codelineno-10-54" href="#__codelineno-10-54"></a>Coordinates:
+<a id="__codelineno-10-55" name="__codelineno-10-55" href="#__codelineno-10-55"></a>    x        (points) float64 320B -5e+05 -4.949e+05 ... -3.051e+05 -3e+05
+<a id="__codelineno-10-56" name="__codelineno-10-56" href="#__codelineno-10-56"></a>    y        (points) float64 320B 4e+05 4e+05 4e+05 4e+05 ... 4e+05 4e+05 4e+05
+<a id="__codelineno-10-57" name="__codelineno-10-57" href="#__codelineno-10-57"></a>Dimensions without coordinates: points
+</code></pre></div></p>
+</details>
+<h3 id="2-reading-a-previous-version-of-the-data">2. Reading a previous version of the data</h3>
+<p>Every ingest and update creates a new Icechunk snapshot. You can list all snapshots and pin a read session to any of them — useful for comparing before/after an update or reproducing a historical result.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">repo</span> <span class="o">=</span> <span class="n">open_icechunk_repo</span><span class="p">(</span><span class="s2">&quot;demogorgn/icechunk/realizations.icechunk&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">for</span> <span class="n">snap</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">ancestry</span><span class="p">(</span><span class="n">branch</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">):</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">snap</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">snap</span><span class="o">.</span><span class="n">written_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M&quot;</span><span class="p">),</span> <span class="n">snap</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>3KQWZ9ABCDEF  2026-04-17 14:32  Bed 990k update 2026-04-17
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>EZHA4B867A1QGNANNHWG 2026-04-17 20:00 Initial write: 100 realizations, float32, sharded (100, 512, 512)
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>1CECHNKREP0F1RSTCMT0 2026-04-17 19:35 Repository initialized
+</code></pre></div>
+</details>
+<p>Pin to a specific snapshot by ID and perform a windowed read exactly as with the latest version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">SNAPSHOT_ID</span> <span class="o">=</span> <span class="s2">&quot;EZHA4B867A1QGNANNHWG&quot;</span>   <span class="c1"># paste any ID from the ancestry list above</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">session_v1</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">readonly_session</span><span class="p">(</span><span class="n">snapshot_id</span><span class="o">=</span><span class="n">SNAPSHOT_ID</span><span class="p">)</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">ds_v1</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">session_v1</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">consolidated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zarr_format</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Windowed read from the historical snapshot — identical API to the latest version</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="n">subset_v1</span> <span class="o">=</span> <span class="n">ds_v1</span><span class="p">[</span><span class="s2">&quot;realizations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</code></pre></div>
+<details class="example">
+<summary>Example</summary>
+<p>Output: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>In [33]: subset_v1
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Out[33]:
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>&lt;xarray.DataArray &#39;realizations&#39; (seed_id: 100, y: 400, x: 400)&gt; Size: 64MB
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>array([[[-200.67606  , -174.63708  ,  -85.02551  , ...,  341.7792   ,
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>        345.73734  ,  337.80518  ],
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>        [-106.97699  ,  -56.186707 ,  -37.67279  , ...,  346.31342  ,
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        376.39032  ,  378.33807  ],
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        [-106.676025 ,    1.942688 ,  -29.944275 , ...,  401.03537  ,
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>        407.4972   ,  406.6589   ],
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>        ...,
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>        [-495.20203  , -567.2076   , -628.6028   , ..., -538.5767   ,
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>        -528.387    , -538.44824  ],
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>        [-468.63644  , -501.48737  , -507.57205  , ..., -538.2457   ,
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>        -546.1842   , -538.4732   ],
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>        [-494.6848   , -463.87448  , -475.35132  , ..., -494.19965  ,
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>        -544.09375  , -555.2104   ]],
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>    [[  84.25458  ,  103.15234  ,  130.83118  , ...,  334.74634  ,
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>        385.07642  ,  420.97067  ],
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>        [  55.274353 ,  109.89746  ,   95.171265 , ...,  330.11127  ,
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>        393.92426  ,  446.16312  ],
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>        [ -56.641846 ,   42.43811  ,   89.48743  , ...,  419.33066  ,
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>        409.65173  ,  481.05902  ],
+<a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a>...
+<a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>        -541.2251   , -576.3712   ],
+<a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>        [-515.65106  , -492.02542  , -460.78717  , ..., -537.32153  ,
+<a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>        -545.4486   , -557.9584   ],
+<a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a>        [-493.5639   , -465.39612  , -472.8019   , ..., -491.39206  ,
+<a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>        -544.0647   , -554.7223   ]],
+<a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a>
+<a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a>    [[-152.52176  , -165.12155  , -167.79361  , ...,  457.6871   ,
+<a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a>        477.14352  ,  462.36053  ],
+<a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>        [-171.27637  , -176.81793  , -159.10959  , ...,  523.0783   ,
+<a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a>        565.5596   ,  504.10703  ],
+<a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a>        [-221.35071  , -161.07932  , -134.29977  , ...,  579.3513   ,
+<a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a>        612.62225  ,  591.658    ],
+<a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>        ...,
+<a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a>        [-554.4741   , -596.36755  , -610.6242   , ..., -538.46094  ,
+<a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a>        -569.50775  , -564.245    ],
+<a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a>        [-532.1763   , -509.6422   , -504.7761   , ..., -537.38776  ,
+<a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>        -546.7633   , -550.37463  ],
+<a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a>        [-493.93304  , -465.5547   , -474.09924  , ..., -549.8597   ,
+<a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a>        -543.3654   , -553.6005   ]]],
+<a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a>    shape=(100, 400, 400), dtype=float32)
+<a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>Coordinates:
+<a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a>* seed_id  (seed_id) int64 800B 0 1 2 3 4 5 6 7 8 ... 92 93 94 95 96 97 98 99
+<a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a>* y        (y) float32 2kB 4.998e+05 4.992e+05 ... 3.008e+05 3.002e+05
+<a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a>* x        (x) float32 2kB -4.998e+05 -4.992e+05 ... -3.008e+05 -3.002e+05
+</code></pre></div></p>
+</details>
+<p>Compare a specific spatial window between two versions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">session_latest</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">readonly_session</span><span class="p">(</span><span class="n">branch</span><span class="o">=</span><span class="s2">&quot;main&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">ds_latest</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">session_latest</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">consolidated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">zarr_format</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">subset_latest</span> <span class="o">=</span> <span class="n">ds_latest</span><span class="p">[</span><span class="s2">&quot;realizations&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">diff</span> <span class="o">=</span> <span class="n">subset_latest</span> <span class="o">-</span> <span class="n">subset_v1</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max change in window: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> m&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pixels changed:       </span><span class="si">{</span><span class="nb">int</span><span class="p">((</span><span class="n">diff</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>(TODO: rerun example after partial update)</p>
+<details class="example">
+<summary>Example</summary>
+<p>Output: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>    In [34]: session_latest = repo.readonly_session(branch=&quot;main&quot;)
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    ...: ds_latest = xr.open_zarr(session_latest.store, consolidated=False, zarr_format=3)
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    ...:
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    ...: subset_latest = ds_latest[&quot;realizations&quot;].sel(
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    ...:     x=slice(X_MIN, X_MAX),
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    ...:     y=slice(Y_MAX, Y_MIN),
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    ...: ).compute()
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    ...:
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    ...: diff = subset_latest - subset_v1
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    ...: print(f&quot;Max change in window: {float(diff.max()):.4f} m&quot;)
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    ...: print(f&quot;Pixels changed:       {int((diff != 0).sum())}&quot;)
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>Max change in window: 0.0000 m
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>Pixels changed:       0
+</code></pre></div></p>
+</details>
+<hr />
+<h3 id="3-export-a-windowed-subset-to-a-local-netcdf">3. Export a windowed subset to a local NetCDF</h3>
+<p>Download a spatial window (and optionally a subset of realizations) and write it to a self-contained NetCDF4 file for offline use.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nc_lib</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">OUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;./realizations_subset.nc&quot;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1"># ── Define the subset ────────────────────────────────────────────────────────</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span> <span class="o">=</span> <span class="o">-</span><span class="mf">200_000.0</span><span class="p">,</span> <span class="mf">100_000.0</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span> <span class="o">=</span>  <span class="o">-</span><span class="mf">900_000.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1_300_000.0</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="n">SEED_IDS</span>     <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>   <span class="c1"># all 100; narrow to e.g. [0, 1, 2] for a quick test</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="n">realizations</span> <span class="o">=</span> <span class="n">realizations_dataset</span><span class="p">[</span><span class="s2">&quot;realizations&quot;</span><span class="p">]</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="n">subset</span> <span class="o">=</span> <span class="n">realizations</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>    <span class="n">seed_id</span><span class="o">=</span><span class="n">SEED_IDS</span><span class="p">,</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="n">x_vals</span>      <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a><span class="n">y_vals</span>      <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a><span class="n">seed_id_vals</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">seed_id</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a><span class="n">n_seeds</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">shape</span>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="c1"># ── Write NetCDF ─────────────────────────────────────────────────────────────</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a><span class="k">with</span> <span class="n">nc_lib</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">OUT_PATH</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    <span class="n">dst</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">,</span> <span class="n">n_seeds</span><span class="p">)</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    <span class="n">dst</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>    <span class="n">dst</span><span class="o">.</span><span class="n">createDimension</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>
+<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>    <span class="c1"># Coordinate variables</span>
+<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>    <span class="n">v</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">,</span> <span class="s2">&quot;i8&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">,));</span> <span class="n">v</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">seed_id_vals</span>
+<a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>    <span class="n">v</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span>  <span class="s2">&quot;f4&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,));</span>  <span class="n">v</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">y_vals</span><span class="p">;</span>  <span class="n">v</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;metres&quot;</span>
+<a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>    <span class="n">v</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>  <span class="s2">&quot;f4&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,));</span>  <span class="n">v</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">x_vals</span><span class="p">;</span>  <span class="n">v</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="s2">&quot;metres&quot;</span>
+<a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a>
+<a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>    <span class="c1"># Main data variable — chunked for efficient row-oriented reads</span>
+<a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a>    <span class="n">data_var</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span>
+<a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a>        <span class="s2">&quot;realizations&quot;</span><span class="p">,</span> <span class="s2">&quot;f4&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;seed_id&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+<a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>        <span class="n">chunksizes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+<a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a>        <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a>        <span class="n">fill_value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+<a id="__codelineno-17-40" name="__codelineno-17-40" href="#__codelineno-17-40"></a>    <span class="p">)</span>
+<a id="__codelineno-17-41" name="__codelineno-17-41" href="#__codelineno-17-41"></a>    <span class="n">data_var</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">subset</span><span class="o">.</span><span class="n">values</span>
+<a id="__codelineno-17-42" name="__codelineno-17-42" href="#__codelineno-17-42"></a>    <span class="n">data_var</span><span class="o">.</span><span class="n">grid_mapping</span> <span class="o">=</span> <span class="s2">&quot;crs&quot;</span>
+<a id="__codelineno-17-43" name="__codelineno-17-43" href="#__codelineno-17-43"></a>    <span class="n">data_var</span><span class="o">.</span><span class="n">long_name</span>    <span class="o">=</span> <span class="s2">&quot;bed elevation ensemble&quot;</span>
+<a id="__codelineno-17-44" name="__codelineno-17-44" href="#__codelineno-17-44"></a>    <span class="n">data_var</span><span class="o">.</span><span class="n">units</span>        <span class="o">=</span> <span class="s2">&quot;m&quot;</span>
+<a id="__codelineno-17-45" name="__codelineno-17-45" href="#__codelineno-17-45"></a>
+<a id="__codelineno-17-46" name="__codelineno-17-46" href="#__codelineno-17-46"></a>    <span class="n">dst</span><span class="o">.</span><span class="n">Conventions</span> <span class="o">=</span> <span class="s2">&quot;CF-1.8&quot;</span>
+<a id="__codelineno-17-47" name="__codelineno-17-47" href="#__codelineno-17-47"></a>    <span class="n">dst</span><span class="o">.</span><span class="n">source</span>      <span class="o">=</span> <span class="s2">&quot;s3://us-west-2.opendata.source.coop/englacial/demogorgn/icechunk/realizations.icechunk&quot;</span>
+<a id="__codelineno-17-48" name="__codelineno-17-48" href="#__codelineno-17-48"></a>
+<a id="__codelineno-17-49" name="__codelineno-17-49" href="#__codelineno-17-49"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Written: </span><span class="si">{</span><span class="n">OUT_PATH</span><span class="si">}</span><span class="s2">  (</span><span class="si">{</span><span class="n">ny</span><span class="si">}</span><span class="s2"> × </span><span class="si">{</span><span class="n">nx</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">n_seeds</span><span class="si">}</span><span class="s2"> realizations)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="include-the-mask-in-the-same-file">Include the mask in the same file</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">bed_window</span> <span class="o">=</span> <span class="n">mask_dataset</span><span class="p">[</span><span class="s2">&quot;fast_flow_mask&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="n">x</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">),</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="n">y</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">Y_MAX</span><span class="p">,</span> <span class="n">Y_MIN</span><span class="p">),</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">)</span><span class="o">.</span><span class="n">interp_like</span><span class="p">(</span><span class="n">subset</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">seed_id</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="k">with</span> <span class="n">nc_lib</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">OUT_PATH</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">mvar</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">createVariable</span><span class="p">(</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>        <span class="s2">&quot;fast_flow_mask&quot;</span><span class="p">,</span> <span class="s2">&quot;i1&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>        <span class="n">zlib</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">complevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>    <span class="p">)</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    <span class="n">mvar</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">bed_window</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="n">mvar</span><span class="o">.</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">&quot;fast-flow methodology mask (1 = fast flow)&quot;</span>
+</code></pre></div>
+<h2 id="grid-reference">Grid reference</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Projection</td>
+<td>EPSG:3031 (Antarctic Polar Stereographic)</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>500 m</td>
+</tr>
+<tr>
+<td>Extent</td>
+<td>~6,667 km x 6,667 km</td>
+</tr>
+<tr>
+<td>Grid size</td>
+<td>13,334 x 13,334 cells</td>
+</tr>
+<tr>
+<td>Realizations</td>
+<td>100 stochastic model runs</td>
+</tr>
+<tr>
+<td>Dtype</td>
+<td>float32</td>
+</tr>
+<tr>
+<td>Compression</td>
+<td>zstd (level 5)</td>
+</tr>
+<tr>
+<td>Shards</td>
+<td>(100, 512, 512)</td>
+</tr>
+<tr>
+<td>Chunks</td>
+<td>(100, 128, 128)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.tabs.link", "navigation.sections"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
