@@ -12,7 +12,7 @@ See the [Pipeline](pipeline.md) page for detailed explanation + usage instructio
 ## Data usage/reading
 
 The Icechunk archives on source.coop are readable without credentials. The icechunk archives enable a few key features: 
-- Range requests to enable spatial/seed subsetting without having to fetch the entire file
+- Range requests (HTTP byte-range fetches) to enable spatial/seed subsetting without having to fetch the entire file
 - Data versioning and reading from a specific point in time
 - Efficient data compression (65Gb NetCDF becomes a 16Gb icechunk archive)
 - Interoperability with Xarray library for data access (data can be fetched directly from the source.coop S3 bucket, without needing to download file to disk first)
@@ -25,7 +25,7 @@ pip install icechunk zarr xarray netCDF4 numpy
 
 ### Opening the stores using [Xarray](https://docs.xarray.dev/en/stable/)
 
-Data proxy API note: source.coop has enabled a data proxy API that enables public (unauthenticated) access to the data which we will be using. The data API handles requests formatted as S3 URI's but parses them slighly differently. In this case the `bucket` parameter refers to the organizaion level sub-folder (`englacial`) - but will be resolved to the correct bucket (`s3://us-west-2.opendata.source.coop`) by the data proxy API (specified by the `endpoing_url` parameter).
+Data proxy API note: the data is publicly readable without any account or credentials. source.coop exposes the data through a proxy API at `https://data.source.coop` that accepts S3-style requests. The `bucket` parameter below is set to the organisation name (`englacial`) rather than the underlying AWS bucket name — the proxy resolves this automatically. The `endpoint_url` parameter points requests at the proxy instead of AWS directly.
 
 ```python
 import icechunk
@@ -400,7 +400,7 @@ subset_v1 = ds_v1["realizations"].sel(
 ```
 
 ??? example
-    Ouptut: 
+    Output: 
     ```
     In [33]: subset_v1
     Out[33]:
@@ -468,11 +468,11 @@ print(f"Max change in window: {float(diff.max()):.4f} m")
 print(f"Pixels changed:       {int((diff != 0).sum())}")
 ```
 
-(TOOD: rerun example after partial update)
+(TODO: rerun example after partial update)
 ??? example 
     Output: 
     ```
-        n [34]: session_latest = repo.readonly_session(branch="main")
+        In [34]: session_latest = repo.readonly_session(branch="main")
         ...: ds_latest = xr.open_zarr(session_latest.store, consolidated=False, zarr_format=3)
         ...:
         ...: subset_latest = ds_latest["realizations"].sel(

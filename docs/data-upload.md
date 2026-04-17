@@ -2,7 +2,7 @@
 
 This page walks through uploading data to the [Source.Coop](https://source.coop/englacial/demogorgn) repository using the AWS CLI, starting from scratch.
 
-## Background: 
+## Background
 Source.coop is a utility for hosting open datasets that provides a public data catalog and standardized access. The data itself physically lives on an Amazon Web Services S3 bucket; the following upload instructions explain how to get started with the AWS CLI in order to upload data to the public repository.
 ---
 
@@ -76,11 +76,11 @@ aws s3 sync ./model-output/ \
     s3://us-west-2.opendata.source.coop/englacial/demogorgn/model-output/
 ```
 
-### Propose path layout
+### Proposed path layout
 
 | File type | S3 path |
 |-----------|---------|
-| Methodolgy mask | `s3://us-west-2.opendata.source.coop/englacial/demogorgn/masks/antarctica_fast_flow_mask_50m.nc` |
+| Methodology mask | `s3://us-west-2.opendata.source.coop/englacial/demogorgn/masks/antarctica_fast_flow_mask_50m.nc` |
 | Model output | `s3://us-west-2.opendata.source.coop/englacial/demogorgn/data/realizations.nc` |
 | Updates | `s3://us-west-2.opendata.source.coop/englacial/demogorgn/data/updates/update1.nc` |
 | Icechunk store | `s3://us-west-2.opendata.source.coop/englacial/demogorgn/realizations.icechunk` |
