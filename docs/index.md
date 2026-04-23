@@ -11,7 +11,8 @@ See the [Pipeline](pipeline.md) page for detailed explanation + usage instructio
 
 ## Data usage/reading
 
-The Icechunk archives on source.coop are readable without credentials. The icechunk archives enable a few key features: 
+The Icechunk archives on source.coop are readable without credentials. The icechunk archives enable a few key features:
+
 - Range requests (HTTP byte-range fetches) to enable spatial/seed subsetting without having to fetch the entire file
 - Data versioning and reading from a specific point in time
 - Efficient data compression (65Gb NetCDF becomes a 16Gb icechunk archive)
