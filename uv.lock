@@ -229,6 +229,7 @@ dependencies = [
     { name = "s3fs" },
     { name = "scipy" },
     { name = "titiler-xarray" },
+    { name = "topozarr" },
     { name = "tqdm" },
     { name = "uvicorn", extra = ["standard"] },
     { name = "xarray" },
@@ -271,6 +272,7 @@ requires-dist = [
     { name = "s3fs", specifier = ">=2026.3.0" },
     { name = "scipy", specifier = ">=1.17.1" },
     { name = "titiler-xarray", specifier = ">=2.0.1" },
+    { name = "topozarr", specifier = ">=0.0.6" },
     { name = "tqdm", specifier = ">=4.67.3" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.46.0" },
     { name = "xarray", specifier = ">=2026.2.0" },
@@ -2311,7 +2313,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "platform_machine != 'ARM64' or sys_platform != 'win32'" },
+    { name = "ptyprocess", marker = "sys_platform != 'emscripten' and sys_platform != 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450 }
 wheels = [
@@ -3248,6 +3250,21 @@ wheels = [
 ]
 
 [[package]]
+name = "topozarr"
+version = "0.0.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dask" },
+    { name = "flox" },
+    { name = "xarray" },
+    { name = "xproj" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/51/ca/583de433bc37128e431aba336a09642a9f6834988cd2021ca81216b3d63a/topozarr-0.0.6.tar.gz", hash = "sha256:8fc6728c7796da9c71a68f6026a78743dcedd6296e400206264487b5abf37dfe", size = 6349 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/40/b5/628461bf9f08944dd4f5f8204de4cb798e34c4affc6bd05c2c3d0e0f0ff0/topozarr-0.0.6-py3-none-any.whl", hash = "sha256:76c58b784d1272ecaf0b73a649f186c62799e8176b7a6d5a3d5fb834d333ad15", size = 7994 },
+]
+
+[[package]]
 name = "tornado"
 version = "6.5.5"
 source = { registry = "https://pypi.org/simple" }
@@ -3603,6 +3620,19 @@ complete = [
     { name = "seaborn" },
     { name = "sparse" },
     { name = "zarr" },
+]
+
+[[package]]
+name = "xproj"
+version = "0.2.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyproj" },
+    { name = "xarray" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/48/33/8c2bcceedfa13122916b6a582eedf9581682dbee329d95bcfb4c69542ade/xproj-0.2.1.tar.gz", hash = "sha256:d520c7a0df402f6a5922108ed614c8ea0ce6b04bec12c91aceb75fe3c1d3c5c3", size = 31781 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/05/b9/b6a9cf72aef69c3e6db869dcc130e19452a658366dac9377f9cd32a76b80/xproj-0.2.1-py3-none-any.whl", hash = "sha256:d762c540c1bc4abc5955b4034b409b9b2f7733c3e49285f3aeb71f9a2dd6bf34", size = 23837 },
 ]
 
 [[package]]
